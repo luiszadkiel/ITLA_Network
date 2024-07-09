@@ -6,11 +6,7 @@ import javax.swing.JFrame;
 
 public class ventana_principal {
 
-	//hola
-	//hola2
-	// pruebaaa
-	// prue
-	//holaaaa
+	// prueba 360
 	
 	private JFrame frame;
 
