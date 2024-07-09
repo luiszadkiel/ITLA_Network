@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class ventana_principal {
 
-	// prueba  fafaf 360
+	// cmoniiiii
 	
 	private JFrame frame;
 
