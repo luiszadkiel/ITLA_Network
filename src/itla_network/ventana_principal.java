@@ -9,7 +9,7 @@ public class ventana_principal {
 	//hola
 	//hola2
 	// pruebaaa
-	// prueba 3
+	// prue
 	private JFrame frame;
 
 	/**
