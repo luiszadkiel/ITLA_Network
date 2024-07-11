@@ -64,7 +64,6 @@ public class ventana_principal {
 		desktopPane.add(desktopPane_1);
 		
 		JInternalFrame internalFrame = new JInternalFrame("");
-		internalFrame.setClosable(true);
 		internalFrame.setBounds(10, 10, 209, 721);
 		desktopPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
@@ -136,6 +135,8 @@ public class ventana_principal {
 		internalFrame_1.getContentPane().add(scrollPane_3);
 		
 		JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
+		internalFrame_2.setClosable(true);
+		internalFrame_2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		internalFrame_2.setBounds(238, 10, 798, 113);
 		panel.add(internalFrame_2);
 		internalFrame_2.getContentPane().setLayout(null);
@@ -149,7 +150,7 @@ public class ventana_principal {
 		internalFrame_2.getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(0, 71, 782, 12);
+		scrollPane_2.setBounds(10, 69, 782, 12);
 		internalFrame_2.getContentPane().add(scrollPane_2);
 		
 		JTextPane textPane_1 = new JTextPane();
@@ -179,8 +180,8 @@ public class ventana_principal {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		textField = new JTextField();
-		textField.setBounds(1066, 675, 437, 46);
-		panel.add(textField);
+		textField.setBounds(0, 569, 414, 46);
+		internalFrame_3.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JSeparator separator = new JSeparator();
