@@ -20,11 +20,11 @@ import javax.swing.JScrollPane;
 
 public class ventana_principal {
 
-<<<<<<< HEAD
+
 	// cmoniiiii
-=======
+
 	// Adrian estuvo aqui
->>>>>>> branch 'rama_adrian' of https://github.com/luiszadkiel/ITLA_Network.git
+
 	
 	private JFrame frame;
 	private JTextField textField;
