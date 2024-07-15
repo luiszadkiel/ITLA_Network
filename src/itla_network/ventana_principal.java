@@ -20,11 +20,7 @@ import javax.swing.JScrollPane;
 
 public class ventana_principal {
 
-<<<<<<< HEAD
-	// cmoniiiii
-=======
-	// Adrian estuvo aqui
->>>>>>> branch 'rama_adrian' of https://github.com/luiszadkiel/ITLA_Network.git
+
 	
 	private JFrame frame;
 	private JTextField textField;
@@ -67,8 +63,8 @@ public class ventana_principal {
 		desktopPane_1.setBounds(296, 254, 1, 1);
 		desktopPane.add(desktopPane_1);
 		
-		JInternalFrame internalFrame = new JInternalFrame("");
-		internalFrame.setBounds(10, 10, 209, 721);
+		JInternalFrame internalFrame = new JInternalFrame("Menú");
+		internalFrame.setBounds(10, 10, 199, 721);
 		desktopPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
@@ -77,19 +73,19 @@ public class ventana_principal {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnBuscar.setBounds(0, 92, 193, 21);
+		btnBuscar.setBounds(0, 90, 193, 30);
 		internalFrame.getContentPane().add(btnBuscar);
 		
 		JButton btnEstados = new JButton("Estados");
-		btnEstados.setBounds(0, 164, 193, 21);
+		btnEstados.setBounds(0, 130, 193, 30);
 		internalFrame.getContentPane().add(btnEstados);
 		
 		JButton btnChat = new JButton("Chat");
-		btnChat.setBounds(0, 191, 193, 21);
+		btnChat.setBounds(0, 170, 193, 30);
 		internalFrame.getContentPane().add(btnChat);
 		
 		JButton btnNewButton_3_1 = new JButton("Notificaciones");
-		btnNewButton_3_1.setBounds(0, 222, 193, 21);
+		btnNewButton_3_1.setBounds(0, 206, 193, 30);
 		internalFrame.getContentPane().add(btnNewButton_3_1);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -97,15 +93,15 @@ public class ventana_principal {
 		internalFrame.getContentPane().add(separator_2);
 		
 		JButton btnNewButton_3_1_1 = new JButton("Perfil");
-		btnNewButton_3_1_1.setBounds(0, 318, 193, 21);
+		btnNewButton_3_1_1.setBounds(0, 318, 193, 33);
 		internalFrame.getContentPane().add(btnNewButton_3_1_1);
 		
 		JButton btnNewButton_3_1_2 = new JButton("Configuracion");
-		btnNewButton_3_1_2.setBounds(0, 647, 193, 21);
+		btnNewButton_3_1_2.setBounds(0, 635, 193, 33);
 		internalFrame.getContentPane().add(btnNewButton_3_1_2);
 		
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
-		btnNewButton_3_1_3.setBounds(0, 258, 193, 21);
+		btnNewButton_3_1_3.setBounds(0, 246, 193, 33);
 		internalFrame.getContentPane().add(btnNewButton_3_1_3);
 		
 		JLabel lblNewLabel = new JLabel("ITLA NETWORK");
@@ -125,7 +121,7 @@ public class ventana_principal {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JInternalFrame internalFrame_1 = new JInternalFrame("");
+		JInternalFrame internalFrame_1 = new JInternalFrame("Blog");
 		internalFrame_1.setBounds(26, 0, 746, 625);
 		panel_2.add(internalFrame_1);
 		internalFrame_1.getContentPane().setLayout(null);
@@ -146,7 +142,7 @@ public class ventana_principal {
 		internalFrame_2.getContentPane().setLayout(null);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setBounds(76, 31, 185, 28);
+		textPane.setBounds(59, 31, 185, 28);
 		internalFrame_2.getContentPane().add(textPane);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -154,11 +150,11 @@ public class ventana_principal {
 		internalFrame_2.getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 69, 782, 12);
+		scrollPane_2.setBounds(0, 69, 782, 12);
 		internalFrame_2.getContentPane().add(scrollPane_2);
 		
 		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setBounds(328, 31, 185, 28);
+		textPane_1.setBounds(316, 31, 195, 28);
 		internalFrame_2.getContentPane().add(textPane_1);
 		
 		JTextPane textPane_1_1 = new JTextPane();
@@ -167,24 +163,24 @@ public class ventana_principal {
 		
 		JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1066, 10, 437, 655);
+		internalFrame_3.setBounds(1066, 10, 437, 711);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(Color.BLUE);
-		panel_3.setBounds(0, 0, 421, 52);
+		panel_3.setBounds(0, 0, 432, 37);
 		internalFrame_3.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("fulanito de tal");
-		lblNewLabel_1.setBounds(148, 10, 140, 38);
+		lblNewLabel_1.setBounds(148, 0, 140, 38);
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setBackground(Color.BLUE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		textField = new JTextField();
-		textField.setBounds(0, 569, 414, 46);
+		textField.setBounds(0, 635, 432, 46);
 		internalFrame_3.getContentPane().add(textField);
 		textField.setColumns(10);
 		
