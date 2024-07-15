@@ -151,6 +151,10 @@ public class perfil extends JFrame {
 				"New column", "New column", "New column"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false
 			};
