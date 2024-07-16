@@ -77,7 +77,7 @@ public class ventana_principal {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnBuscar.setBounds(0, 92, 193, 21);
+		btnBuscar.setBounds(0, 83, 193, 30);
 		internalFrame.getContentPane().add(btnBuscar);
 		
 		JButton btnEstados = new JButton("Estados");
