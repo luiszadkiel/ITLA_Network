@@ -25,7 +25,7 @@ public class Conexion_mysql {
 		
 		while(miResultset.next()) {
 			System.out.print(miResultset.getString("Nombre_USUARIO") + "  ");
-			System.out.print(miResultset.getString("Correo") + "  ");
+		//	System.out.print(miResultset.getString("Correo") + "  ");
 			System.out.println(miResultset.getString("contraseña"));
 		}
 		
