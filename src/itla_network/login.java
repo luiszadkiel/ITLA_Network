@@ -63,6 +63,7 @@ public class login extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Iniciar sesion ");
+		btnNewButton.setForeground(Color.BLACK);
 		btnNewButton.setFont(new Font("Wide Latin", Font.PLAIN, 10));
 		btnNewButton.setBounds(161, 347, 234, 57);
 		panel.add(btnNewButton);
