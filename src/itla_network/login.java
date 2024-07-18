@@ -53,7 +53,7 @@ public class login extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 0));
-		panel.setBounds(40, 10, 518, 504);
+		panel.setBounds(35, 10, 530, 504);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -67,10 +67,10 @@ public class login extends JFrame {
 		btnNewButton.setBounds(161, 347, 234, 57);
 		panel.add(btnNewButton);
 		
-		JLabel lblNewLabel = new JLabel("Login");
+		JLabel lblNewLabel = new JLabel("ITLA_NETWORK");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Wide Latin", Font.PLAIN, 20));
-		lblNewLabel.setBounds(214, 104, 109, 77);
+		lblNewLabel.setBounds(115, 107, 371, 77);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_1 = new JButton("Registrarse");
