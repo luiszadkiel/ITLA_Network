@@ -1,24 +1,62 @@
 package clases;
 
-public class Chat extends Perfil {
-	 private String Nombre_Chat;
+import java.sql.Time;
 
+public class Chat extends Perfil implements Mensaje {
 
-	    public Chat() {
-	        // manda un mensaje de hola
-	    }
+    private String Nombre_Chat;
 
-	    public void setChat(String texto) {
-	        // implementación
-	    }
+    public Chat() {
+        // manda un mensaje de hola
+    }
 
-	    public String GetChat() {
-	        // implementación
-	        return null;
-	    }
+    // Getter y Setter para Nombre_Chat
+    public String getNombre_Chat() {
+        return Nombre_Chat;
+    }
 
-	    public static Type Notificar(String Nombre_Perfil, String TipoNotificaciones) {
-	        // implementación
-	        return null;
-	    }
+    public void setNombre_Chat(String Nombre_Chat) {
+        this.Nombre_Chat = Nombre_Chat;
+    }
+
+    public void setChat(String texto) {
+        // implementación
+    }
+
+    public String GetChat() {
+        // implementación
+        return null;
+    }
+
+    public static Void Notificar(String Nombre_Perfil, String TipoNotificaciones) {
+        // implementación
+        return null;
+    }
+
+    @Override
+    public String getTexto() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Time getTiempo() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setTexto(String texto) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void Enviar() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void Eliminar() {
+        // TODO Auto-generated method stub
+    }
 }
