@@ -1,46 +1,46 @@
 package basedatos;
+
 import java.sql.*;
+import java.util.Properties;
 
 public class Conexion_mysql {
-	 public static void main(String[] args) {
-	   Connection conexion = null;
-       String url = "jdbc:mysql://localhost:3306/database_itlanetwork";
-       String usuario = "root";
-       String password = "admin";
-	
-       
-	// entramos la conexion dentro de un try para que nos informe si see produjo algun error en la conexion
-	try {
-		
-// forma 1 de hacer la conexion	   //	Connection miConexion=DriverManager.getConection();
-		
-/* fomar 2*/
-		
-		// 1. crear conexion 
-		conexion = DriverManager.getConnection(url, usuario, password);
-		// 2. crear objecto de tipo statement
-		Statement miStatement = conexion.createStatement();
-		// 3. ejecutar sql
-		ResultSet miResultset =miStatement.executeQuery("select * from usuarios"); 
-		
-		while(miResultset.next()) {
-			System.out.print(miResultset.getString("Nombre_USUARIO") + "  ");
-		//	System.out.print(miResultset.getString("Correo") + "  ");
-			System.out.println(miResultset.getString("contraseña"));
-		}
-		
-		
-	}catch(SQLException  e){
-		 System.out.println("Error en la conexión: " + e.getMessage());
-	}
-	finally {
+    private static final String URL = "jdbc:mysql://181.36.177.174:3306/database_itlanetwork";
+    private static final String USER = "prueba_remot";
+    private static final String PASSWORD = "Duranaracena01";
+
+    public static void main(String[] args) {
+        Connection conexion = null;
+        Statement statement = null;
+
         try {
-            if (conexion != null) conexion.close();
+            // Propiedades para la conexión
+            Properties properties = new Properties();
+            properties.setProperty("user", USER);
+            properties.setProperty("password", PASSWORD);
+            properties.setProperty("connectTimeout", "10000"); // 10 segundos
+            properties.setProperty("socketTimeout", "10000");  // 10 segundos
+
+            // 1. Crear conexión
+            conexion = DriverManager.getConnection(URL, properties);
+
+            // 2. Crear objeto de tipo Statement
+            statement = conexion.createStatement();
+          
+
         } catch (SQLException e) {
-            System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            System.out.println("Error en la conexión: " + e.getMessage());
+        } finally {
+            // 5. Cerrar recursos
+            try {
+                if (statement != null) statement.close();
+                if (conexion != null) conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar los recursos: " + e.getMessage());
+            }
         }
-	
-	
-	
-	}
-}}
+    }
+    
+    
+    
+    
+}

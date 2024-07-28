@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import java.awt.Font;
 
 public class perfil extends JFrame {
 
@@ -93,6 +94,8 @@ public class perfil extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nombre de usuario");
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(143, 11, 128, 26);
 		panel.add(lblNewLabel);
 		
@@ -115,7 +118,7 @@ public class perfil extends JFrame {
 		panel.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nombre");
-		lblNewLabel_5.setBounds(285, 17, 159, 14);
+		lblNewLabel_5.setBounds(305, 17, 159, 14);
 		panel.add(lblNewLabel_5);
 		
 		JTextArea txtrDescripcionDeLa = new JTextArea();
