@@ -79,7 +79,27 @@ private FileInputStream fileInputStream;
 			public void mouseClicked(MouseEvent e) {
 				
 				
-				
+				JFileChooser sChooser = new JFileChooser();
+				sChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int estado = sChooser.showOpenDialog(null);
+		if (estado == JFileChooser.APPROVE_OPTION) {
+			try {
+				fileInputStream = new FileInputStream(sChooser.getSelectedFile());
+				num = (int) sChooser.getSelectedFile().length();
+				Image iconoImage = ImageIO.read(sChooser.getSelectedFile()).getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_DEFAULT);
+				lblNewLabel.setIcon(new ImageIcon(iconoImage));
+				lblNewLabel.updateUI();
+			
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Error de imagen" + e);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Error de imagen 205" + e);
+			}
+			
+			
+		}
 				
 				
 			}
@@ -90,6 +110,26 @@ private FileInputStream fileInputStream;
 		JButton btnNewButton = new JButton("Subir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				textField.setText("Esta funcionando");
+				
+				if (textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(lblNewLabel, "Este espacio no puede quedar vacio");
+					
+				}else{
+					
+					try {
+						//Connection conbdConnection = 
+						//PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post()");
+						//preparedStatement.executeUpdate();
+					} catch (Exception e2) {
+						// TODO: handle exception
+					}
+					
+					
+					
+				}
 				
 				
 				
