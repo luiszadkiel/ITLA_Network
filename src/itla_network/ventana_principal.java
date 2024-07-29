@@ -267,6 +267,7 @@ public class ventana_principal {
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
+		
 		JPanel panel_3 = new JPanel();
 
 		panel_3.setForeground(new Color(255, 255, 255));
