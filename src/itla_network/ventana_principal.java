@@ -26,7 +26,7 @@ public class ventana_principal {
 	private JTextField textField;
 
 	/**
-	 * Launch the application.
+	 * Launch the application. otro cambio
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -96,7 +96,7 @@ public class ventana_principal {
 		
 		JButton btnChat = new JButton("Chat");
 
-		btnChat.setBounds(0, 164, 193, 36);
+		btnChat.setBounds(0, 164, 193, 36);//s
 		btnChat.setBounds(0, 170, 193, 30);
 
 		internalFrame1.getContentPane().add(btnChat);
