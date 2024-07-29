@@ -281,7 +281,7 @@ public class ventana_principal {
 =======
 		textField.setBounds(0, 635, 432, 46);
 >>>>>>> refs/heads/rama_prueba
-		internalFrame_3.getContentPane().add(textField);
+		internalFrame_3.getContentPane().add(textField); //s
 		textField.setColumns(10);
 		
 		JSeparator separator = new JSeparator();
