@@ -5,11 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import basedatos.Conexion_mysql;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Color;
@@ -63,6 +67,14 @@ public class login extends JFrame {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Iniciar sesion ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Conexion_mysql conexion_mysql = new Conexion_mysql();
+				PreparedStatement consulPreparedStatement =conexion_mysql.
+				
+				
+			}
+		});
 		btnNewButton.setForeground(Color.BLACK);
 		btnNewButton.setFont(new Font("Wide Latin", Font.PLAIN, 10));
 		btnNewButton.setBounds(161, 347, 234, 57);
