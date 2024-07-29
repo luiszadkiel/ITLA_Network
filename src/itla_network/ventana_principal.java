@@ -26,7 +26,7 @@ public class ventana_principal {
 	private JTextField textField;
 
 	/**
-	 * Launch the application.
+	 * Launch the application. otro cambio
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
