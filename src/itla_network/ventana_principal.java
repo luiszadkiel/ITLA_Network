@@ -77,6 +77,8 @@ public class ventana_principal {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				buscador buscador = new buscador();
+				buscador.setVisible(true);
 			}
 		});
 
