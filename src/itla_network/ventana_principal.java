@@ -114,6 +114,10 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(separator_2);
 		
 		JButton btnNewButton_3_1_1 = new JButton("Perfil");
+		btnNewButton_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 
 		btnNewButton_3_1_1.setBounds(0, 318, 193, 36);
 
