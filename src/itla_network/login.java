@@ -70,7 +70,7 @@ public class login extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Conexion_mysql conexion_mysql = new Conexion_mysql();
-				PreparedStatement consulPreparedStatement =conexion_mysql.
+				//PreparedStatement consulPreparedStatement =conexion_mysql.
 				
 				
 			}

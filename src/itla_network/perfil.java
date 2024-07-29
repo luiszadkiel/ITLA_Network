@@ -51,7 +51,7 @@ public class perfil extends JFrame {
 	 */
 	public perfil() {
 		setBackground(Color.BLACK);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 622, 731);
 		
 		JMenuBar menuBar = new JMenuBar();

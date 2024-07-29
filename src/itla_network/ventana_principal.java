@@ -17,13 +17,15 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class ventana_principal {
-
+	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
+	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 
 	
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application. otro cambio
@@ -53,7 +55,7 @@ public class ventana_principal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1478, 778);
+		frame.setBounds(100, 100, 1401, 778);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
@@ -89,6 +91,13 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(btnBuscar);
 		
 		JButton btnEstados = new JButton("Estados");
+		btnEstados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			internalFrame_2.setVisible(true);
+				
+				
+			}
+		});
 
 		btnEstados.setBounds(0, 123, 193, 38);
 
@@ -97,6 +106,11 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(btnEstados);
 		
 		JButton btnChat = new JButton("Chat");
+		btnChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				internalFrame_3.setVisible(true);
+			}
+		});
 
 		btnChat.setBounds(0, 164, 193, 36);//s
 		btnChat.setBounds(0, 170, 193, 30);
@@ -104,6 +118,13 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(btnChat);
 		
 		JButton btnNewButton_3_1 = new JButton("Notificaciones");
+		btnNewButton_3_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				notificaciones notificaciones = new notificaciones();
+				notificaciones.setVisible(true);
+			}
+		});
 
 		btnNewButton_3_1.setBounds(0, 210, 193, 38);
 
@@ -118,6 +139,8 @@ public class ventana_principal {
 		JButton btnNewButton_3_1_1 = new JButton("Perfil");
 		btnNewButton_3_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				perfil perfil = new perfil();
+				perfil.setVisible(true);
 			}
 		});
 
@@ -167,13 +190,13 @@ public class ventana_principal {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 0));
-		panel.setBounds(0, 0, 1513, 731);
+		panel.setBounds(0, 0, 1395, 731);
 		desktopPane.add(panel);
 		panel.setLayout(null);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 0, 64));
-		panel_2.setBounds(238, 133, 795, 613);
+		panel_2.setBounds(222, 133, 773, 613);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -183,7 +206,7 @@ public class ventana_principal {
 
 		JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
 
-		internalFrame_11.setBounds(26, 0, 746, 625);
+		internalFrame_11.setBounds(20, 0, 729, 625);
 		panel_2.add(internalFrame_11);
 		internalFrame_11.getContentPane().setLayout(null);
 		
@@ -195,11 +218,11 @@ public class ventana_principal {
 		scrollPane_3.setBounds(711, 0, 19, 572);
 		internalFrame_11.getContentPane().add(scrollPane_3);
 		
-		JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
+		
 		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));
 		internalFrame_2.setClosable(true);
 		internalFrame_2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		internalFrame_2.setBounds(238, 10, 798, 113);
+		internalFrame_2.setBounds(222, 10, 773, 113);
 		panel.add(internalFrame_2);
 		internalFrame_2.getContentPane().setLayout(null);
 		
@@ -260,45 +283,31 @@ public class ventana_principal {
 		lblNewLabel_3_2.setBounds(521, 21, 72, 52);
 		panel_4.add(lblNewLabel_3_2);
 		
-		JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1043, 0, 410, 721);
+		internalFrame_3.setBounds(1005, 10, 369, 711);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
+		JPanel panel_3_1 = new JPanel();
+		panel_3_1.setLayout(null);
+		panel_3_1.setForeground(Color.WHITE);
+		panel_3_1.setBackground(new Color(0, 0, 64));
+		panel_3_1.setBounds(0, 0, 353, 37);
+		internalFrame_3.getContentPane().add(panel_3_1);
 		
-		JPanel panel_3 = new JPanel();
-
-		panel_3.setForeground(new Color(255, 255, 255));
-		panel_3.setBackground(new Color(0, 0, 64));
-		panel_3.setBounds(0, 0, 421, 46);
-
-		panel_3.setBackground(Color.BLUE);
-		panel_3.setBounds(0, 0, 432, 37);
-
-		internalFrame_3.getContentPane().add(panel_3);
-		panel_3.setLayout(null);
+		JLabel lblNewLabel_1_1 = new JLabel("fulanito de tal");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setForeground(Color.WHITE);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1_1.setBackground(Color.BLUE);
+		lblNewLabel_1_1.setBounds(0, 0, 353, 38);
+		panel_3_1.add(lblNewLabel_1_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("fulanito de tal");
-
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setBounds(149, 10, 262, 38);
-
-		lblNewLabel_1.setBounds(148, 0, 140, 38);
-
-		panel_3.add(lblNewLabel_1);
-		lblNewLabel_1.setBackground(Color.BLUE);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
-		textField = new JTextField();
-
-		textField.setBounds(0, 645, 349, 28);
-
-		textField.setBounds(0, 635, 432, 46);
-
-		internalFrame_3.getContentPane().add(textField); //s
-		textField.setColumns(10);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(0, 644, 366, 37);
+		internalFrame_3.getContentPane().add(textField_1);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(1066, 668, 437, 0);
@@ -309,7 +318,7 @@ public class ventana_principal {
 		panel.add(separator_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(238, 113, 782, 10);
+		scrollPane.setBounds(238, 113, 743, 10);
 		panel.add(scrollPane);
 		internalFrame_3.setVisible(true);
 		internalFrame_2.setVisible(true);
