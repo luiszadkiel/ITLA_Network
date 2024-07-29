@@ -17,9 +17,7 @@ public class Conexion_mysql {
             Properties properties = new Properties();
             properties.setProperty("user", USER);
             properties.setProperty("password", PASSWORD);
-            properties.setProperty("connectTimeout", "10000"); // 10 segundos
-            properties.setProperty("socketTimeout", "10000");  // 10 segundos
-
+           
             // 1. Crear conexión
             conexion = DriverManager.getConnection(URL, properties);
 
