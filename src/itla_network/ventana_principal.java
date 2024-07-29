@@ -53,7 +53,7 @@ public class ventana_principal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1527, 778);
+		frame.setBounds(100, 100, 1478, 778);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
@@ -257,7 +257,7 @@ public class ventana_principal {
 		JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1066, 10, 437, 711);
+		internalFrame_3.setBounds(1043, 0, 410, 721);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
@@ -286,7 +286,7 @@ public class ventana_principal {
 		
 		textField = new JTextField();
 
-		textField.setBounds(0, 635, 421, 46);
+		textField.setBounds(0, 645, 349, 28);
 
 		textField.setBounds(0, 635, 432, 46);
 
