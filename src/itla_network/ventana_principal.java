@@ -63,10 +63,15 @@ public class ventana_principal {
 		desktopPane_1.setBounds(296, 254, 1, 1);
 		desktopPane.add(desktopPane_1);
 		
+<<<<<<< HEAD
 		JInternalFrame internalFrame = new JInternalFrame("");
 		internalFrame.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame.getContentPane().setForeground(new Color(0, 0, 0));
 		internalFrame.setBounds(10, 10, 209, 721);
+=======
+		JInternalFrame internalFrame = new JInternalFrame("Menú");
+		internalFrame.setBounds(10, 10, 199, 721);
+>>>>>>> refs/heads/rama_prueba
 		desktopPane.add(internalFrame);
 		internalFrame.getContentPane().setLayout(null);
 		
@@ -75,19 +80,35 @@ public class ventana_principal {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+<<<<<<< HEAD
 		btnBuscar.setBounds(0, 75, 193, 38);
+=======
+		btnBuscar.setBounds(0, 90, 193, 30);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnBuscar);
 		
 		JButton btnEstados = new JButton("Estados");
+<<<<<<< HEAD
 		btnEstados.setBounds(0, 123, 193, 38);
+=======
+		btnEstados.setBounds(0, 130, 193, 30);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnEstados);
 		
 		JButton btnChat = new JButton("Chat");
+<<<<<<< HEAD
 		btnChat.setBounds(0, 164, 193, 36);
+=======
+		btnChat.setBounds(0, 170, 193, 30);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnChat);
 		
 		JButton btnNewButton_3_1 = new JButton("Notificaciones");
+<<<<<<< HEAD
 		btnNewButton_3_1.setBounds(0, 210, 193, 38);
+=======
+		btnNewButton_3_1.setBounds(0, 206, 193, 30);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnNewButton_3_1);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -95,19 +116,31 @@ public class ventana_principal {
 		internalFrame.getContentPane().add(separator_2);
 		
 		JButton btnNewButton_3_1_1 = new JButton("Perfil");
+<<<<<<< HEAD
 		btnNewButton_3_1_1.setBounds(0, 318, 193, 36);
+=======
+		btnNewButton_3_1_1.setBounds(0, 318, 193, 33);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnNewButton_3_1_1);
 		
 		JButton btnNewButton_3_1_2 = new JButton("Configuracion");
+<<<<<<< HEAD
 		btnNewButton_3_1_2.setBounds(0, 630, 193, 38);
+=======
+		btnNewButton_3_1_2.setBounds(0, 635, 193, 33);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnNewButton_3_1_2);
 		
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
+<<<<<<< HEAD
 		btnNewButton_3_1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnNewButton_3_1_3.setBounds(0, 258, 193, 38);
+=======
+		btnNewButton_3_1_3.setBounds(0, 246, 193, 33);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame.getContentPane().add(btnNewButton_3_1_3);
 		
 		JLabel lblNewLabel = new JLabel("ITLA NETWORK");
@@ -128,8 +161,12 @@ public class ventana_principal {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
+<<<<<<< HEAD
 		JInternalFrame internalFrame_1 = new JInternalFrame("");
 		internalFrame_1.getContentPane().setBackground(new Color(0, 0, 0));
+=======
+		JInternalFrame internalFrame_1 = new JInternalFrame("Blog");
+>>>>>>> refs/heads/rama_prueba
 		internalFrame_1.setBounds(26, 0, 746, 625);
 		panel_2.add(internalFrame_1);
 		internalFrame_1.getContentPane().setLayout(null);
@@ -150,18 +187,35 @@ public class ventana_principal {
 		panel.add(internalFrame_2);
 		internalFrame_2.getContentPane().setLayout(null);
 		
+<<<<<<< HEAD
+=======
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(59, 31, 185, 28);
+		internalFrame_2.getContentPane().add(textPane);
+		
+>>>>>>> refs/heads/rama_prueba
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(309, 71, 2, 2);
 		internalFrame_2.getContentPane().add(scrollPane_1);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
+<<<<<<< HEAD
 		scrollPane_2.setBounds(0, 0, 772, 83);
+=======
+		scrollPane_2.setBounds(0, 69, 782, 12);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame_2.getContentPane().add(scrollPane_2);
 		
+<<<<<<< HEAD
 		JPanel panel_4 = new JPanel();
 		scrollPane_2.setViewportView(panel_4);
 		panel_4.setBackground(new Color(0, 0, 0));
 		panel_4.setLayout(null);
+=======
+		JTextPane textPane_1 = new JTextPane();
+		textPane_1.setBounds(316, 31, 195, 28);
+		internalFrame_2.getContentPane().add(textPane_1);
+>>>>>>> refs/heads/rama_prueba
 		
 		JTextPane textPane_1_1 = new JTextPane();
 		textPane_1_1.setBounds(92, 28, 154, 34);
@@ -199,21 +253,34 @@ public class ventana_principal {
 		internalFrame_3.getContentPane().setLayout(null);
 		
 		JPanel panel_3 = new JPanel();
+<<<<<<< HEAD
 		panel_3.setForeground(new Color(255, 255, 255));
 		panel_3.setBackground(new Color(0, 0, 64));
 		panel_3.setBounds(0, 0, 421, 46);
+=======
+		panel_3.setBackground(Color.BLUE);
+		panel_3.setBounds(0, 0, 432, 37);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame_3.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("fulanito de tal");
+<<<<<<< HEAD
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setBounds(149, 10, 262, 38);
+=======
+		lblNewLabel_1.setBounds(148, 0, 140, 38);
+>>>>>>> refs/heads/rama_prueba
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setBackground(Color.BLUE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		textField = new JTextField();
+<<<<<<< HEAD
 		textField.setBounds(0, 635, 421, 46);
+=======
+		textField.setBounds(0, 635, 432, 46);
+>>>>>>> refs/heads/rama_prueba
 		internalFrame_3.getContentPane().add(textField);
 		textField.setColumns(10);
 		
