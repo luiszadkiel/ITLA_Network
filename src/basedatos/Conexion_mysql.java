@@ -1,16 +1,17 @@
 package basedatos;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Conexion_mysql {
     private static final String URL = "jdbc:mysql://181.36.177.174:3306/database_itlanetwork";
     private static final String USER = "prueba_remot";
     private static final String PASSWORD = "Duranaracena01";
-    {
+
+    public static Connection getConnection() {
         Connection conexion = null;
-        Statement statement = null;
-        
         try {
             // Propiedades para la conexión
             Properties properties = new Properties();
@@ -19,19 +20,9 @@ public class Conexion_mysql {
            
             // 1. Crear conexión
             conexion = DriverManager.getConnection(URL, properties);
-          
-
         } catch (SQLException e) {
             System.out.println("Error en la conexión: " + e.getMessage());
-        } finally {
-            // 5. Cerrar recursos
-            try {
-                if (statement != null) statement.close();
-                if (conexion != null) conexion.close();
-            } catch (SQLException e) {
-                System.out.println("Error al cerrar los recursos: " + e.getMessage());
-            }
         }
-    
-   
-}}
+        return conexion;
+    }
+}
