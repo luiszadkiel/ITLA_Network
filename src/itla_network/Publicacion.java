@@ -112,7 +112,7 @@ private FileInputStream fileInputStream;
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				
+				textField.setText("Esta funcionando");
 				
 				if (textField.getText().equals("")) {
 					JOptionPane.showMessageDialog(lblNewLabel, "Este espacio no puede quedar vacio");
