@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import java.awt.Font;
 
 public class perfil extends JFrame {
 
@@ -93,7 +94,9 @@ public class perfil extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nombre de usuario");
-		lblNewLabel.setBounds(9, 132, 128, 26);
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBounds(143, 11, 128, 26);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("publicaciones");
@@ -115,12 +118,12 @@ public class perfil extends JFrame {
 		panel.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Nombre");
-		lblNewLabel_5.setBounds(145, 98, 159, 14);
+		lblNewLabel_5.setBounds(305, 17, 159, 14);
 		panel.add(lblNewLabel_5);
 		
 		JTextArea txtrDescripcionDeLa = new JTextArea();
 		txtrDescripcionDeLa.setText("Descripcion de la cuenta....");
-		txtrDescripcionDeLa.setBounds(142, 122, 434, 36);
+		txtrDescripcionDeLa.setBounds(10, 133, 566, 36);
 		panel.add(txtrDescripcionDeLa);
 		
 		JLabel lblNewLabel_6 = new JLabel("0");
@@ -134,6 +137,14 @@ public class perfil extends JFrame {
 		JLabel lblNewLabel_8 = new JLabel("seguidos");
 		lblNewLabel_8.setBounds(468, 50, 108, 14);
 		panel.add(lblNewLabel_8);
+		
+		JButton btnNewButton = new JButton("Seguir");
+		btnNewButton.setBounds(143, 99, 128, 26);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Mensaje");
+		btnNewButton_1.setBounds(298, 99, 146, 26);
+		panel.add(btnNewButton_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 217, 586, 442);

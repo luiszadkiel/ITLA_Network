@@ -58,42 +58,42 @@ public class registro extends JFrame {
 		panel.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 103, 300, 36);
+		textField.setBounds(110, 103, 300, 36);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(10, 257, 300, 36);
+		textField_1.setBounds(110, 257, 300, 36);
 		panel.add(textField_1);
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
-		textField_3.setBounds(10, 327, 300, 36);
+		textField_3.setBounds(110, 327, 300, 36);
 		panel.add(textField_3);
 		
 		JLabel lblNewLabel = new JLabel("Nombre de usuario");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(96, 80, 107, 13);
+		lblNewLabel.setBounds(210, 80, 107, 13);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Correo");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(129, 234, 45, 13);
+		lblNewLabel_1.setBounds(237, 234, 45, 13);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Contraseña");
 		lblNewLabel_1_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_1.setBounds(129, 159, 107, 13);
+		lblNewLabel_1_1.setBounds(237, 160, 107, 13);
 		panel.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Telefono ");
 		lblNewLabel_1_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1_2.setBounds(129, 304, 61, 13);
+		lblNewLabel_1_2.setBounds(237, 304, 61, 13);
 		panel.add(lblNewLabel_1_2);
 		
 		JButton btnNewButton = new JButton("Registrar");
@@ -102,7 +102,7 @@ public class registro extends JFrame {
 		panel.add(btnNewButton);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(10, 182, 300, 36);
+		passwordField.setBounds(110, 182, 300, 36);
 		panel.add(passwordField);
 		
 		JLabel lblNewLabel_2 = new JLabel("Registro");
