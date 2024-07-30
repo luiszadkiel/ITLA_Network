@@ -280,7 +280,7 @@ public class ventana_principal {
 		panel_3.setLayout(null);
 		
 		
-		lblNewLabel_1.setBounds(61, 23, 486, 347);
+		lblNewLabel_1.setBounds(68, 23, 486, 347);
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
