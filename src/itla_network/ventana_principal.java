@@ -284,11 +284,11 @@ public class ventana_principal {
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(216, 380, 85, 21);
+		JButton btnNewButton_1 = new JButton("comentarios");
+		btnNewButton_1.setBounds(216, 380, 107, 21);
 		panel_3.add(btnNewButton_1);
 		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+		JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
 		tglbtnNewToggleButton.setBounds(71, 380, 115, 21);
 		panel_3.add(tglbtnNewToggleButton);
 		
