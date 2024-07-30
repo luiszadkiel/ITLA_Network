@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -112,19 +113,27 @@ private FileInputStream fileInputStream;
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				textField.setText("Esta funcionando");
+				
 				
 				if (textField.getText().equals("")) {
 					JOptionPane.showMessageDialog(lblNewLabel, "Este espacio no puede quedar vacio");
 					
 				}else{
-					
+					Conexion_mysql conexion_mysql = new Conexion_mysql();
 					try {
-						//Connection conbdConnection = 
-						//PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post()");
-						//preparedStatement.executeUpdate();
-					} catch (Exception e2) {
-						// TODO: handle exception
+						Connection conbdConnection = conexion_mysql.getConnection();
+						
+						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(IMAGEN, DESCRIPCION) values(?,?)");
+						
+						preparedStatement.setBlob(1,fileInputStream, num);
+						preparedStatement.setString(2, textField.getText());
+						
+					    preparedStatement.executeUpdate();
+					    JOptionPane.showMessageDialog(null, "Foto subida exitosamente ");
+
+					
+					} catch (SQLException e2) {
+						JOptionPane.showMessageDialog(null, "Error al conectarse a la base de datos " + e2);
 					}
 					
 					
@@ -132,7 +141,7 @@ private FileInputStream fileInputStream;
 				}
 				
 				
-				
+				textField.setText("");
 				
 				
 			}

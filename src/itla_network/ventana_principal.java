@@ -10,22 +10,44 @@ import javax.swing.JInternalFrame;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import com.mysql.cj.jdbc.Blob;
+import com.mysql.cj.xdevapi.Statement;
+
+import basedatos.Conexion_mysql;
+
+import javax.swing.JToggleButton;
+
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
-
+	JLabel lblNewLabel_1 = new JLabel("New label");
 	
 	private JFrame frame;
 	private JTextField textField_1;
+	
 
 	/**
 	 * Launch the application. otro cambio
@@ -162,6 +184,40 @@ public class ventana_principal {
 
 		btnNewButton_3_1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Conexion_mysql conexiombd = new Conexion_mysql();
+				try {
+					Connection coneConnection = conexiombd.getConnection(); 
+					
+					PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where ID_post = 6");
+					ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
+					
+					
+			        
+					java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
+			            
+			            byte[] pre = imge.getBytes(1, (int) imge.length());
+			            BufferedImage imagenBufferedImage = null;
+			            try {
+			            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
+						} catch (IOException e2) {
+							JOptionPane.showMessageDialog(null, "Error al de imagen");
+						}
+			            lblNewLabel_1.setText("todo funcional");
+			            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+			            
+			           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(lblNewLabel_1.getWidth(), lblNewLabel_1.getHeight(), Image.SCALE_DEFAULT));		
+			           lblNewLabel_1.setIcon(imagenIcon);
+			           
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+				
+				
+				
 			}
 		});
 		btnNewButton_3_1_3.setBounds(0, 258, 193, 38);
@@ -217,6 +273,24 @@ public class ventana_principal {
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(711, 0, 19, 572);
 		internalFrame_11.getContentPane().add(scrollPane_3);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(76, 35, 605, 426);
+		internalFrame_11.getContentPane().add(panel_3);
+		panel_3.setLayout(null);
+		
+		
+		lblNewLabel_1.setBounds(61, 23, 486, 347);
+		panel_3.add(lblNewLabel_1);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.setBounds(216, 380, 85, 21);
+		panel_3.add(btnNewButton_1);
+		
+		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+		tglbtnNewToggleButton.setBounds(71, 380, 115, 21);
+		panel_3.add(tglbtnNewToggleButton);
 		
 		
 		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));

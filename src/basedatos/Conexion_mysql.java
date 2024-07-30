@@ -10,7 +10,7 @@ public class Conexion_mysql {
     private static final String USER = "prueba_remot";
     private static final String PASSWORD = "Duranaracena01";
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         Connection conexion = null;
         try {
             // Propiedades para la conexión
