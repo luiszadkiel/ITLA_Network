@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,14 +38,17 @@ import com.mysql.cj.jdbc.Blob;
 import com.mysql.cj.xdevapi.Statement;
 
 import basedatos.Conexion_mysql;
+import ventanas.verft;
 
 import javax.swing.JToggleButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JLabel lblNewLabel_1 = new JLabel("New label");
-	
+	int likes=0;
 	private JFrame frame;
 	private JTextField textField_1;
 	
@@ -184,15 +188,20 @@ public class ventana_principal {
 
 		btnNewButton_3_1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Conexion_mysql conexiombd = new Conexion_mysql();
-				try {
+				Conexion_mysql cone = new Conexion_mysql();
+				 public List<ImageIcon> loadImagesFromDatabase(cone.getConnection() connection) {//vyfhjkbbbkbbiugi
+     
+ try {
 					Connection coneConnection = conexiombd.getConnection(); 
 					
-					PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where ID_post = 6");
+					PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where ID_post = 9");
 					ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
 					
 					
-			        
+			        while (resultadoResultSet.next()) {
+					
+						
+				
 					java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
 			            
 			            byte[] pre = imge.getBytes(1, (int) imge.length());
@@ -200,22 +209,22 @@ public class ventana_principal {
 			            try {
 			            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
 						} catch (IOException e2) {
-							JOptionPane.showMessageDialog(null, "Error al de imagen");
+							java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
 						}
 			            lblNewLabel_1.setText("todo funcional");
 			            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 			            
 			           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(lblNewLabel_1.getWidth(), lblNewLabel_1.getHeight(), Image.SCALE_DEFAULT));		
 			           lblNewLabel_1.setIcon(imagenIcon);
-			           
-				} catch (SQLException e1) {
+			    	}
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
 				
 				
-				
+ }
 				
 				
 			}
@@ -275,21 +284,57 @@ public class ventana_principal {
 		internalFrame_11.getContentPane().add(scrollPane_3);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(76, 35, 605, 426);
+		panel_3.setBounds(55, 35, 605, 426);
 		internalFrame_11.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		
 		
-		lblNewLabel_1.setBounds(68, 23, 486, 347);
+		lblNewLabel_1.setBounds(63, 23, 486, 347);
 		panel_3.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton btnNewButton_1 = new JButton("comentarios");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_1.setBounds(216, 380, 107, 21);
 		panel_3.add(btnNewButton_1);
 		
 		JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
-		tglbtnNewToggleButton.setBounds(71, 380, 115, 21);
+		tglbtnNewToggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			if (tglbtnNewToggleButton.isSelected()) {
+				likes++;
+			}else {
+				likes--;
+				
+			}
+				
+				Conexion_mysql conexion_mysql = new Conexion_mysql();
+				try {
+					Connection conen = conexion_mysql.getConnection();
+					PreparedStatement preparedStatement3 = conen.prepareStatement("insert into Likes(CuentaID, Cantidad_Like) values()"); // hay que esperar a hacer que la interfaz de registro
+					preparedStatement3.executeUpdate();
+					PreparedStatement preparedStatement = conen.prepareStatement("Update Likes set Cantidad_Like = '?' ");
+					preparedStatement.setInt(1, likes);
+					int coneResultSet = preparedStatement.executeUpdate();
+					
+				   if (coneResultSet>0) {
+					   tglbtnNewToggleButton.setText("Likes " + coneResultSet);
+				}
+					
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Error de likes");
+				}
+			}
+		});
+		tglbtnNewToggleButton.setBounds(73, 380, 115, 21);
 		panel_3.add(tglbtnNewToggleButton);
 		
 		
