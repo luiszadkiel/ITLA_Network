@@ -1,6 +1,7 @@
 package itla_network;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JDesktopPane;
@@ -11,6 +12,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -38,16 +42,21 @@ import com.mysql.cj.jdbc.Blob;
 import com.mysql.cj.xdevapi.Statement;
 
 import basedatos.Conexion_mysql;
-import ventanas.verft;
+
 
 import javax.swing.JToggleButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
-	JLabel lblNewLabel_1 = new JLabel("New label");
+	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
+	JButton btnNewButton_1 = new JButton("comentarios");
+	JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
+	ArrayList<JPanel>panelesArrayList =new ArrayList<JPanel>();
 	int likes=0;
 	private JFrame frame;
 	private JTextField textField_1;
@@ -189,45 +198,83 @@ public class ventana_principal {
 		btnNewButton_3_1_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Conexion_mysql cone = new Conexion_mysql();
-				 public List<ImageIcon> loadImagesFromDatabase(cone.getConnection() connection) {//vyfhjkbbbkbbiugi
+			
      
  try {
-					Connection coneConnection = conexiombd.getConnection(); 
+					Connection coneConnection = cone.getConnection(); 
 					
-					PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where ID_post = 9");
+					PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post");
+					 
 					ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
 					
+					int count =0;
 					
 			        while (resultadoResultSet.next()) {
-					
-						
+			        
+						count++;
 				
 					java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
-			            
-			            byte[] pre = imge.getBytes(1, (int) imge.length());
-			            BufferedImage imagenBufferedImage = null;
+					if (imge!=null) {
+						 byte[] pre = imge.getBytes(1, (int) imge.length());
+				            
+							
+					
+			           
+		            	 BufferedImage imagenBufferedImage = null;
+
+			           
+			           
+			            if (pre!= null && pre.length > 0) {
+							
 			            try {
 			            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
 						} catch (IOException e2) {
 							java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
 						}
-			            lblNewLabel_1.setText("todo funcional");
-			            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+			            JPanel panel_3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+			            panel_3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			            
-			           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(lblNewLabel_1.getWidth(), lblNewLabel_1.getHeight(), Image.SCALE_DEFAULT));		
-			           lblNewLabel_1.setIcon(imagenIcon);
+			            panel_3.setBounds(55, 35, 605, 426);
+			    		
+			    		panel_3.setLayout(null);
+			    		panel_3.add(btnNewButton_1);	
+			    		panel_3.add(tglbtnNewToggleButton);
+			    		
+			            
+			            
+			            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+			           
+			           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(panel_3.getWidth(), panel_3.getHeight(), Image.SCALE_SMOOTH));	
+			           
+			           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
+			           lblNewLabel_1.setSize(panel_3.getSize());
+			           
+			           panel_3.add(lblNewLabel_1);
+			           panelesArrayList.add(panel_3);
+			         
+			         
+			    	}
+
+			    		  JOptionPane.showMessageDialog(null, "funcional");
+			    		
+					}
+			        
 			    	}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
+				 internalFrame_11.getContentPane().add(panelesArrayList.get(5));
+
+	//for (int i = 0 ; i >= panelesArrayList.size()-1; i--) {
+		 internalFrame_11.getContentPane().add(panelesArrayList.get(1));
+		
+	//}
 				
  }
 				
 				
-			}
+			
 		});
 		btnNewButton_3_1_3.setBounds(0, 258, 193, 38);
 
@@ -269,44 +316,34 @@ public class ventana_principal {
 		JInternalFrame internalFrame_1 = new JInternalFrame("");
 		internalFrame_1.getContentPane().setBackground(new Color(0, 0, 0));
 
-		JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
+		
 
 		internalFrame_11.setBounds(20, 0, 729, 625);
 		panel_2.add(internalFrame_11);
 		internalFrame_11.getContentPane().setLayout(null);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(711, 0, 19, 595);
-		internalFrame_11.getContentPane().add(panel_1);
-		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(711, 0, 19, 572);
+		scrollPane_3.setBounds(680, 0, 23, 595);
 		internalFrame_11.getContentPane().add(scrollPane_3);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(55, 35, 605, 426);
-		internalFrame_11.getContentPane().add(panel_3);
-		panel_3.setLayout(null);
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(701, 0, 23, 595);
+		internalFrame_11.getContentPane().add(panel_1);
 		
 		
-		lblNewLabel_1.setBounds(63, 23, 486, 347);
-		panel_3.add(lblNewLabel_1);
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JButton btnNewButton_1 = new JButton("comentarios");
+		
+		
+		
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(216, 380, 107, 21);
-		panel_3.add(btnNewButton_1);
+		btnNewButton_1.setBounds(230, 395, 107, 21);
 		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
+		
+		
 		tglbtnNewToggleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			if (tglbtnNewToggleButton.isSelected()) {
@@ -334,8 +371,8 @@ public class ventana_principal {
 				}
 			}
 		});
-		tglbtnNewToggleButton.setBounds(73, 380, 115, 21);
-		panel_3.add(tglbtnNewToggleButton);
+		tglbtnNewToggleButton.setBounds(10, 395, 115, 21);
+	
 		
 		
 		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));
