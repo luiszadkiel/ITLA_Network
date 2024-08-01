@@ -90,7 +90,7 @@ public class ventana_principal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1401, 778);
+		frame.setBounds(100, 100, 1369, 778);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JDesktopPane desktopPane = new JDesktopPane();
@@ -441,7 +441,7 @@ public class ventana_principal {
 		
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1005, 10, 369, 711);
+		internalFrame_3.setBounds(1005, 11, 342, 711);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		

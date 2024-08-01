@@ -6,23 +6,55 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Conexion_mysql {
+
     private static final String URL = "jdbc:mysql://181.36.177.174:3306/database_itlanetwork";
     private static final String USER = "prueba_remot";
-    private static final String PASSWORD = "Duranaracena01";
+    private static final String PASSWORD = "Duranaracena01"; // **Recuerda reemplazarlo con tu contraseña real**
 
     public Connection getConnection() {
         Connection conexion = null;
         try {
-            // Propiedades para la conexión
+            // Properties for secure connection (avoid hardcoding credentials)
             Properties properties = new Properties();
             properties.setProperty("user", USER);
             properties.setProperty("password", PASSWORD);
-           
-            // 1. Crear conexión
+
+            // Create connection
             conexion = DriverManager.getConnection(URL, properties);
+            System.out.println("Conexión establecida con éxito!");
         } catch (SQLException e) {
             System.out.println("Error en la conexión: " + e.getMessage());
         }
         return conexion;
+    }
+
+    public static void main(String[] args) {
+        Conexion_mysql conexion = new Conexion_mysql();
+        Connection conn = conexion.getConnection();
+
+        // Use the connection for database operations here
+        // For example, you can create a Statement or PreparedStatement and execute queries
+
+        // Example of how you might use the connection (this code is commented out as it requires actual database operations):
+        /*
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM some_table")) {
+            while (rs.next()) {
+                System.out.println("Column 1: " + rs.getString(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error durante la consulta: " + e.getMessage());
+        }
+        */
+
+        // Close the connection when done
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Conexión cerrada.");
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
     }
 }
