@@ -11,6 +11,8 @@ import basedatos.Conexion_mysql;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -18,9 +20,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.JSeparator;
-
+import clases.*;
 public class login extends JFrame {
-
+	int i = 0;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -69,9 +71,23 @@ public class login extends JFrame {
 		JButton btnNewButton = new JButton("Iniciar sesion ");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Conexion_mysql conexion_mysql = new Conexion_mysql();
-				//PreparedStatement consulPreparedStatement =conexion_mysql.
+				loginn ne =new loginn(); 
+				String pass = new String(passwordField.getPassword());
 				
+				
+				if (ne.verificador(textField.getText(),pass)) {
+					JOptionPane.showMessageDialog(null, "Bienvenido");
+					ventana_principal ventnaPrincipal = new ventana_principal();// ojo aqui
+					ventnaPrincipal.frame.setVisible(true);
+				
+				}else{
+					i++;
+					JOptionPane.showMessageDialog(null, "¡Usuario o contraseña incorrectos!", "", JOptionPane.ERROR_MESSAGE);
+					if (i>3) {
+						JOptionPane.showMessageDialog(null, "Porfavor registrese nuevamente", "", JOptionPane.ERROR_MESSAGE);
+						i=0;
+					}
+				}
 				
 			}
 		});

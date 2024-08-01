@@ -5,15 +5,21 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import clases.Registro;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.event.ActionEvent;
 
 public class registro extends JFrame {
-
+ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -97,6 +103,14 @@ public class registro extends JFrame {
 		panel.add(lblNewLabel_1_2);
 		
 		JButton btnNewButton = new JButton("Registrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String passw = new String(passwordField.getPassword());
+				nuevoRegistros.add(new Registro(textField.getText() ,textField_1.getText(), passw,  textField_3.getText()));
+				nuevoRegistros.removeAll(nuevoRegistros);
+				
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton.setBounds(322, 408, 140, 43);
 		panel.add(btnNewButton);
