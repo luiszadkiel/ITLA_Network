@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyVetoException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -49,34 +50,26 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
+	
 	JButton btnNewButton_1 = new JButton("comentarios");
 	JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
 	ArrayList<JPanel>panelesArrayList =new ArrayList<JPanel>();
 	int likes=0;
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField_1;
 	
 
 	/**
 	 * Launch the application. otro cambio
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ventana_principal window = new ventana_principal();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**....
 	 * Create the application.
@@ -231,11 +224,10 @@ public class ventana_principal {
 						} catch (IOException e2) {
 							java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
 						}
-			            JPanel panel_3 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-			            panel_3.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+			            JPanel panel_3 = new JPanel();
+			            
 			            
 			            panel_3.setBounds(55, 35, 605, 426);
-			    		
 			    		panel_3.setLayout(null);
 			    		panel_3.add(btnNewButton_1);	
 			    		panel_3.add(tglbtnNewToggleButton);
@@ -251,8 +243,6 @@ public class ventana_principal {
 			           
 			           panel_3.add(lblNewLabel_1);
 			           panelesArrayList.add(panel_3);
-			         
-			         
 			    	}
 
 			    		  JOptionPane.showMessageDialog(null, "funcional");
@@ -264,12 +254,14 @@ public class ventana_principal {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				 internalFrame_11.getContentPane().add(panelesArrayList.get(5));
+				
 
 	//for (int i = 0 ; i >= panelesArrayList.size()-1; i--) {
-		 internalFrame_11.getContentPane().add(panelesArrayList.get(1));
 		
 	//}
+	
+		 internalFrame_11.getContentPane().add(panelesArrayList.get(5));
+		 internalFrame_11.getContentPane().add(panelesArrayList.get(7));
 				
  }
 				
@@ -315,24 +307,32 @@ public class ventana_principal {
 
 		JInternalFrame internalFrame_1 = new JInternalFrame("");
 		internalFrame_1.getContentPane().setBackground(new Color(0, 0, 0));
+		try {
+			internalFrame_11.setMaximizable(true);
+			internalFrame_11.setMaximum(true);
+		} catch (PropertyVetoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		
 
-		internalFrame_11.setBounds(20, 0, 729, 625);
+		internalFrame_11.setBounds(10, 10, 699, 504);
 		panel_2.add(internalFrame_11);
-		internalFrame_11.getContentPane().setLayout(null);
+		GroupLayout groupLayout = new GroupLayout(internalFrame_11.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGap(0, 757, Short.MAX_VALUE)
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 666, Short.MAX_VALUE)
+		);
+		internalFrame_11.getContentPane().setLayout(groupLayout);
 		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(680, 0, 23, 595);
-		internalFrame_11.getContentPane().add(scrollPane_3);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(701, 0, 23, 595);
-		internalFrame_11.getContentPane().add(panel_1);
 		
 		
-		
-		
+		// no se muestran las imagenes dee forma descendente
 		
 		
 		
@@ -342,7 +342,7 @@ public class ventana_principal {
 		});
 		btnNewButton_1.setBounds(230, 395, 107, 21);
 		
-		
+		internalFrame_11.getContentPane().setLayout(new FlowLayout());
 		
 		tglbtnNewToggleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
