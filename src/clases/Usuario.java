@@ -9,6 +9,19 @@ public abstract class Usuario {
 	private String telefono;
 	private Time fechaRegistro;
 
+	public Usuario() {}
+	
+	 // Constructor
+    public Usuario(String nombre, String correo, String contraseña, String telefono) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.contraseña = contraseña;
+        this.telefono = telefono;
+    }
+	
+	
+	
+	
 	// Métodos getter y setter
 	public String getNombre() {
 	    return nombre;

@@ -13,6 +13,11 @@ import basedatos.Conexion_mysql;
 import itla_network.ventana_principal;
 
  public class loginn {
+	 
+     // Variables para almacenar los datos del perfil
+
+   
+     
 	 Conexion_mysql cone = new Conexion_mysql();
 	 public  boolean verificador(String usuario, String pass) {
 		 Connection conexionConnection = cone.getConnection(); 
@@ -26,6 +31,8 @@ import itla_network.ventana_principal;
 			while (resultSet.next()) {
 				if (resultSet.getString("contraseña").equals(pass) && resultSet.getString("Nombre_USUARIO").equals(usuario)){
 					return true;
+				}else if(resultSet.getString("Nombre_USUARIO").equals(usuario)){
+	
 				}
 				
 			}
@@ -36,11 +43,16 @@ import itla_network.ventana_principal;
 		 
 		 return false;
 
-		
+		 
+		 
 	 };
-
-
-
+	 
+	 
+	 Connection conexionConnection = cone.getConnection(); 
+	 
+	 
+ 
+	
 	 
 	 
  }

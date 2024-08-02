@@ -21,7 +21,6 @@ public class Conexion_mysql {
 
             // Create connection
             conexion = DriverManager.getConnection(URL, properties);
-            System.out.println("Conexión establecida con éxito!");
         } catch (SQLException e) {
             System.out.println("Error en la conexión: " + e.getMessage());
         }
@@ -51,10 +50,14 @@ public class Conexion_mysql {
         if (conn != null) {
             try {
                 conn.close();
-                System.out.println("Conexión cerrada.");
             } catch (SQLException e) {
                 System.out.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
     }
+
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
 }

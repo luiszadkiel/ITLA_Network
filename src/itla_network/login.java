@@ -21,6 +21,7 @@ import javax.swing.JPasswordField;
 import java.awt.Color;
 import javax.swing.JSeparator;
 import clases.*;
+import javax.swing.SwingConstants;
 public class login extends JFrame {
 	int i = 0;
 	private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class login extends JFrame {
 	 */
 	public login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 611, 566);
+		setBounds(100, 100, 569, 566);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 64));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,11 +60,13 @@ public class login extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 0));
-		panel.setBounds(35, 10, 530, 504);
+		panel.setBounds(13, 11, 530, 504);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		textField = new JTextField();
+		textField.setForeground(Color.BLACK);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		textField.setBounds(93, 194, 357, 48);
 		panel.add(textField);
 		textField.setColumns(10);
@@ -73,6 +76,14 @@ public class login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				loginn ne =new loginn(); 
 				String pass = new String(passwordField.getPassword());
+				
+				
+				String nombre = textField.getText();
+				Perfil perfil = Perfil.getInstance();
+				perfil.setNombre(nombre);
+				perfil.setNombre_Perfil(nombre);
+				perfil.cargarPerfilPorNombre(nombre);
+				
 				
 				
 				if (ne.verificador(textField.getText(),pass)) {
@@ -97,12 +108,14 @@ public class login extends JFrame {
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("ITLA_NETWORK");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Wide Latin", Font.PLAIN, 20));
-		lblNewLabel.setBounds(115, 107, 371, 77);
+		lblNewLabel.setFont(new Font("Wide Latin", Font.PLAIN, 29));
+		lblNewLabel.setBounds(10, 106, 510, 77);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_1 = new JButton("Registrarse");
+		btnNewButton_1.setForeground(Color.BLACK);
 		btnNewButton_1.setFont(new Font("Wide Latin", Font.PLAIN, 10));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,6 +127,8 @@ public class login extends JFrame {
 		panel.add(btnNewButton_1);
 		
 		passwordField = new JPasswordField();
+		passwordField.setForeground(Color.BLACK);
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		passwordField.setBounds(93, 271, 357, 48);
 		panel.add(passwordField);
 		
