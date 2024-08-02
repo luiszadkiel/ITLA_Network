@@ -37,6 +37,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Label;
 
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
@@ -62,7 +63,7 @@ public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
-
+	 int count = 70;
 	Perfil miperfil = Perfil.getInstance();
     
    String nombre_user =miperfil.getNombre_Perfil();
@@ -147,18 +148,13 @@ public class ventana_principal {
 
 		
 
-		internalFrame_11.setBounds(0, 0, 773, 216);
+		internalFrame_11.setBounds(0, 55, 763, 646);
 		panel_2.add(internalFrame_11);
-		GroupLayout groupLayout = new GroupLayout(internalFrame_11.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 757, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 666, Short.MAX_VALUE)
-		);
-		internalFrame_11.getContentPane().setLayout(groupLayout);
+		
+		JPanel panel_4 = new JPanel();
+		panel.setLayout(null);
+		panel_4.setBounds(0, 5, 747, 863);
+		internalFrame_11.getContentPane().setLayout(null);
 		
 		
 		
@@ -170,9 +166,11 @@ public class ventana_principal {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(230, 395, 107, 21);
 		
-		internalFrame_11.getContentPane().setLayout(new FlowLayout());
+		
+	
+		internalFrame_11.getContentPane().setLayout(null);
+		
 		
 		tglbtnNewToggleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,7 +183,11 @@ public class ventana_principal {
 				
 				Conexion_mysql conexion_mysql = new Conexion_mysql();
 				try {
+					
 					Connection conen = conexion_mysql.getConnection();
+					PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM  Usuarios WHERE Nombre_USUARIO ="); // hay que esperar a hacer que la interfaz de registro
+
+					
 					PreparedStatement preparedStatement3 = conen.prepareStatement("insert into Likes(CuentaID, Cantidad_Like) values()"); // hay que esperar a hacer que la interfaz de registro
 					preparedStatement3.executeUpdate();
 					PreparedStatement preparedStatement = conen.prepareStatement("Update Likes set Cantidad_Like = '?' ");
@@ -201,7 +203,7 @@ public class ventana_principal {
 				}
 			}
 		});
-		tglbtnNewToggleButton.setBounds(10, 395, 115, 21);
+		
 	
 		
 		
@@ -471,9 +473,14 @@ public class ventana_principal {
 		// Agregar el JScrollPane al internal frame
 		internalFrame_3.revalidate();
 		internalFrame_3.repaint();
+		
+		
+		
+		  
+			
 	    
-	    
-	    
+	
+		
 		btnChat.setBounds(0, 164, 193, 36);//s
 		btnChat.setBounds(0, 170, 193, 30);
 		
@@ -523,24 +530,34 @@ public class ventana_principal {
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
 		
 		btnNewButton_3_1_3.addActionListener(new ActionListener() {
-					private int count;
+					
 
 					public void actionPerformed(ActionEvent e) {
 						Conexion_mysql cone = new Conexion_mysql();
 					
 		     
 		 try {
+			 
+			 Perfil perfil = Perfil.getInstance();
+			 String nombreString = perfil.getNombre();
 							Connection coneConnection = cone.getConnection(); 
-							
-							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post");
+							PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ? ");
+							consulPreparedStatement2.setString(1, nombreString);
+							ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
+							int resultado = -1;
+							if (resultadoResultSet2.next()) {
+								resultado = resultadoResultSet2.getInt("ID_Usuarios");
+							}
+						
+							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where CuentaID = ?");
+							consulPreparedStatement.setInt(1, resultado);
 							 
 							ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
 							
-							count = 0;
 							
 					        while (resultadoResultSet.next()) {
 					        
-								count++;
+								
 						
 							java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
 							if (imge!=null) {
@@ -561,24 +578,31 @@ public class ventana_principal {
 									java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
 								}
 					            JPanel panel_3 = new JPanel();
+					            JLabel otroLabel = new JLabel(nombreString);
 					            
 					            
-					            panel_3.setBounds(55, 35, 605, 426);
+					            panel_3.setBounds(55, count, 605, 426);
+					            
 					    		panel_3.setLayout(null);
-					    		panel_3.add(btnNewButton_1);	
-					    		panel_3.add(tglbtnNewToggleButton);
 					    		
-					            
+					    		
+					    		count = 200 ; count++;
 					            
 					            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 					           
-					           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(panel_3.getWidth(), panel_3.getHeight(), Image.SCALE_SMOOTH));	
-					           
+					           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
+					           panel_3.add(btnNewButton_1);	
+					           btnNewButton_1.setBounds(300, 240, 240, 32);
+					           otroLabel.setSize(btnNewButton_1.getSize());
+					    		panel_3.add(tglbtnNewToggleButton);
+					    		tglbtnNewToggleButton.setBounds(65, 240, 240, 32);
 					           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
 					           lblNewLabel_1.setSize(panel_3.getSize());
-					           
+					           panel_3.add(otroLabel);
 					           panel_3.add(lblNewLabel_1);
-					           panelesArrayList.add(panel_3);
+					           panel_4.add(panel_3);
+					          
+					           
 					    	}
 		
 					    		  //JOptionPane.showMessageDialog(null, "funcional");
@@ -590,16 +614,10 @@ public class ventana_principal {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						
-		
-			//for (int i = 0 ; i >= panelesArrayList.size()-1; i--) {
-				
-			//}
-			
-				 internalFrame_11.getContentPane().add(panelesArrayList.get(5));
-				 internalFrame_11.getContentPane().add(panelesArrayList.get(7));
-				 
-				 
+	
+		 
+		 internalFrame_11.getContentPane().add(panel_4);                                        // FALTA EL SCROLLPANE AQUI
+				 		 
 					}
 					
 				});

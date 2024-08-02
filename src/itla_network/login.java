@@ -85,7 +85,6 @@ public class login extends JFrame {
 				perfil.cargarPerfilPorNombre(nombre);
 				
 				
-				
 				if (ne.verificador(textField.getText(),pass)) {
 					JOptionPane.showMessageDialog(null, "Bienvenido");
 					ventana_principal ventnaPrincipal = new ventana_principal();// ojo aqui

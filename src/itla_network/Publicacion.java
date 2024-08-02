@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import basedatos.Conexion_mysql;
+import clases.Perfil;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
@@ -111,7 +113,8 @@ private FileInputStream fileInputStream;
 		JButton btnNewButton = new JButton("Subir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Perfil perfil = Perfil.getInstance();                                                                              // error posiblemente por estooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+				 String nombreString = perfil.getNombre();
 				
 				
 				
@@ -122,11 +125,17 @@ private FileInputStream fileInputStream;
 					Conexion_mysql conexion_mysql = new Conexion_mysql();
 					try {
 						Connection conbdConnection = conexion_mysql.getConnection();
-						
-						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(IMAGEN, DESCRIPCION) values(?,?)");
-						
-						preparedStatement.setBlob(1,fileInputStream, num);
-						preparedStatement.setString(2, textField.getText());
+						PreparedStatement preparedStatement2 = conbdConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
+						preparedStatement2.setString(1, nombreString);
+						 ResultSet datoSet = preparedStatement2.executeQuery();
+						 int i = -1;
+						 if (datoSet.next()) {
+							i = datoSet.getInt("ID_Usuarios");
+						}
+						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(CuentaID, IMAGEN, DESCRIPCION) values(?,?,?)");
+						preparedStatement.setInt(1, i);
+						preparedStatement.setBlob(2,fileInputStream, num);
+						preparedStatement.setString(3, textField.getText());
 						
 					    preparedStatement.executeUpdate();
 					    JOptionPane.showMessageDialog(null, "Foto subida exitosamente ");
