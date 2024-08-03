@@ -65,7 +65,6 @@ public class ventana_principal {
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
 	 int count = 70;
 	Perfil miperfil = Perfil.getInstance();
-    
    String nombre_user =miperfil.getNombre_Perfil();
 	
 	
@@ -151,9 +150,7 @@ public class ventana_principal {
 		internalFrame_11.setBounds(0, 55, 763, 646);
 		panel_2.add(internalFrame_11);
 		
-		JPanel panel_4 = new JPanel();
-		panel.setLayout(null);
-		panel_4.setBounds(0, 5, 747, 863);
+		
 		internalFrame_11.getContentPane().setLayout(null);
 		
 		
@@ -170,6 +167,11 @@ public class ventana_principal {
 		
 	
 		internalFrame_11.getContentPane().setLayout(null);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBounds(1, 1, 736, 655);
+		panel_5.setLayout(null);
+		internalFrame_11.getContentPane().add(panel_5);
 		
 		
 		tglbtnNewToggleButton.addActionListener(new ActionListener() {
@@ -474,6 +476,12 @@ public class ventana_principal {
 		internalFrame_3.revalidate();
 		internalFrame_3.repaint();
 		
+		JScrollPane scrollPane3 = new JScrollPane(panel_5);
+		scrollPane3.setBounds(0, 0, 736, 657); // Ajustar el tamaño y la ubicación del JScrollPane
+		internalFrame_11.getContentPane().add(scrollPane3);
+		// Agregar el JScrollPane al internal frame
+		internalFrame_11.revalidate();
+		internalFrame_11.repaint();
 		
 		
 		  
@@ -538,18 +546,17 @@ public class ventana_principal {
 		     
 		 try {
 			 
-			 Perfil perfil = Perfil.getInstance();
-			 String nombreString = perfil.getNombre();
+			 
 							Connection coneConnection = cone.getConnection(); 
 							PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ? ");
-							consulPreparedStatement2.setString(1, nombreString);
+							consulPreparedStatement2.setString(1, nombre_user);
 							ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
 							int resultado = -1;
 							if (resultadoResultSet2.next()) {
 								resultado = resultadoResultSet2.getInt("ID_Usuarios");
 							}
 						
-							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN from post where CuentaID = ?");
+							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN, DESCRIPCION from post where CuentaID = ?");
 							consulPreparedStatement.setInt(1, resultado);
 							 
 							ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
@@ -560,6 +567,7 @@ public class ventana_principal {
 								
 						
 							java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
+							String descripcionString = resultadoResultSet.getString("DESCRIPCION");
 							if (imge!=null) {
 								 byte[] pre = imge.getBytes(1, (int) imge.length());
 						            
@@ -578,7 +586,9 @@ public class ventana_principal {
 									java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
 								}
 					            JPanel panel_3 = new JPanel();
-					            JLabel otroLabel = new JLabel(nombreString);
+					            JLabel otroLabel = new JLabel(nombre_user);
+					            JLabel otroLabel2 = new JLabel(descripcionString);
+
 					            
 					            
 					            panel_3.setBounds(55, count, 605, 426);
@@ -594,13 +604,17 @@ public class ventana_principal {
 					           panel_3.add(btnNewButton_1);	
 					           btnNewButton_1.setBounds(300, 240, 240, 32);
 					           otroLabel.setSize(btnNewButton_1.getSize());
+					           
+					           otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
+
 					    		panel_3.add(tglbtnNewToggleButton);
 					    		tglbtnNewToggleButton.setBounds(65, 240, 240, 32);
 					           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
 					           lblNewLabel_1.setSize(panel_3.getSize());
 					           panel_3.add(otroLabel);
+					           panel_3.add(otroLabel2);
 					           panel_3.add(lblNewLabel_1);
-					           panel_4.add(panel_3);
+					           panel_5.add(panel_3);
 					          
 					           
 					    	}
@@ -616,7 +630,6 @@ public class ventana_principal {
 						}
 	
 		 
-		 internalFrame_11.getContentPane().add(panel_4);                                        // FALTA EL SCROLLPANE AQUI
 				 		 
 					}
 					

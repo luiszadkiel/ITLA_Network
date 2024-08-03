@@ -35,7 +35,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Publicacion extends JFrame {
-
+	Perfil miperfil = Perfil.getInstance();
+	   String nombre_user =miperfil.getNombre_Perfil();
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -113,8 +114,7 @@ private FileInputStream fileInputStream;
 		JButton btnNewButton = new JButton("Subir");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Perfil perfil = Perfil.getInstance();                                                                              // error posiblemente por estooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-				 String nombreString = perfil.getNombre();
+				
 				
 				
 				
@@ -126,7 +126,7 @@ private FileInputStream fileInputStream;
 					try {
 						Connection conbdConnection = conexion_mysql.getConnection();
 						PreparedStatement preparedStatement2 = conbdConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
-						preparedStatement2.setString(1, nombreString);
+						preparedStatement2.setString(1, nombre_user);
 						 ResultSet datoSet = preparedStatement2.executeQuery();
 						 int i = -1;
 						 if (datoSet.next()) {
