@@ -58,6 +58,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.UIManager;
 import javax.swing.JSpinner;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.CompoundBorder;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
@@ -169,9 +171,25 @@ public class ventana_principal {
 		internalFrame_11.getContentPane().setLayout(null);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(1, 1, 736, 655);
-		panel_5.setLayout(null);
-		internalFrame_11.getContentPane().add(panel_5);
+		panel_5.setBackground(Color.BLACK);
+	    //panel_5.setBounds(54, 1, 686, 513); // Posición y tamaño iniciales
+
+		// Ajustar el tamaño del panel usando Dimension
+		panel_5.setPreferredSize(new Dimension(736, 4000));	
+		panel_5.setLayout(new BorderLayout());
+
+		// Crear el JScrollPane con el panel como contenido
+		JScrollPane scrollPane_3 = new JScrollPane(panel_5);
+
+		// Ajustar el tamaño y agregar el JScrollPane al internal frame
+		scrollPane_3.setBounds(0, 0, 758, 513);	
+		internalFrame_11.getContentPane().add(scrollPane_3, BorderLayout.CENTER);
+
+		// Actualizar el internal frame
+		internalFrame_11.revalidate();
+		internalFrame_11.repaint();
+	
+		
 		
 		
 		tglbtnNewToggleButton.addActionListener(new ActionListener() {
@@ -242,7 +260,7 @@ public class ventana_principal {
 		//----------------------------------------------------------------------------------------
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1005, 11, 342, 657);
+		internalFrame_3.setBounds(1005, 10, 342, 710);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
@@ -327,35 +345,57 @@ public class ventana_principal {
 				    Connection coneConnection = conn.getConnection(); 
 
 				    // Consulta SQL
-				    String sql = "SELECT c.chat_id, " +
-				                 "       u.ID_Usuarios AS user_id, " +
-				                 "       u.Nombre_USUARIO AS nombre_usuario, " +
-				                 "       m.texto_mensaje AS ultimo_mensaje, " +
-				                 "       m.hora_envio AS ultima_hora_envio " +
-				                 "FROM Chat_usuarios cu " +
-				                 "JOIN Chat c ON cu.chat_id = c.chat_id " +
-				                 "JOIN Mensaje m ON c.chat_id = m.chat_id " +
-				                 "JOIN Usuarios u ON m.user_id = u.ID_Usuarios " +
-				                 "WHERE cu.chat_id IN ( " +
-				                 "    SELECT chat_id " +
-				                 "    FROM Chat_usuarios " +
-				                 "    WHERE user_id = ( " +
-				                 "        SELECT ID_Usuarios " +
-				                 "        FROM Usuarios " +
-				                 "        WHERE Nombre_USUARIO = ? " +
-				                 "    ) " +
-				                 ") " +
-				                 "AND m.hora_envio = ( " +
-				                 "    SELECT MAX(hora_envio) " +
-				                 "    FROM Mensaje " +
-				                 "    WHERE chat_id = c.chat_id " +
-				                 ") " +
-				                 "ORDER BY c.chat_id, m.hora_envio DESC";
+				    String sql = "SELECT " +
+		                     "    c.chat_id, " +
+		                     "    u.ID_Usuarios AS user_id, " +
+		                     "    u.Nombre_USUARIO AS nombre_usuario, " +
+		                     "    m.texto_mensaje AS ultimo_mensaje, " +
+		                     "    m.hora_envio AS ultima_hora_envio " +
+		                     "FROM " +
+		                     "    Chat_usuarios cu " +
+		                     "JOIN " +
+		                     "    Chat c ON cu.chat_id = c.chat_id " +
+		                     "JOIN " +
+		                     "    ( " +
+		                     "        SELECT " +
+		                     "            m1.chat_id, " +
+		                     "            m1.user_id, " +
+		                     "            m1.texto_mensaje, " +
+		                     "            m1.hora_envio " +
+		                     "        FROM " +
+		                     "            Mensaje m1 " +
+		                     "        INNER JOIN ( " +
+		                     "            SELECT " +
+		                     "                chat_id, " +
+		                     "                MAX(hora_envio) AS ultima_hora " +
+		                     "            FROM " +
+		                     "                Mensaje " +
+		                     "            GROUP BY " +
+		                     "                chat_id " +
+		                     "        ) m2 ON m1.chat_id = m2.chat_id AND m1.hora_envio = m2.ultima_hora " +
+		                     "    ) m ON c.chat_id = m.chat_id " +
+		                     "JOIN " +
+		                     "    Usuarios u ON m.user_id = u.ID_Usuarios " +
+		                     "WHERE " +
+		                     "    cu.user_id = ( " +
+		                     "        SELECT " +
+		                     "            ID_Usuarios " +
+		                     "        FROM " +
+		                     "            Usuarios " +
+		                     "        WHERE " +
+		                     "            Nombre_USUARIO = ? " +
+		                     "    ) " +
+		                     "AND " +
+		                     "    u.Nombre_USUARIO != ? " +
+		                     "ORDER BY " +
+		                     "    c.chat_id, m.hora_envio DESC " +
+		                     "LIMIT 0, 2000";
 
 				    // Crear la consulta preparada
 				    pstmt = coneConnection.prepareStatement(sql);
 				    pstmt.setString(1, nombre_user); // Aquí puedes establecer el valor del parámetro user_id
-
+				    pstmt.setString(2, nombre_user);
+				    
 				    // Ejecutar la consulta
 				    rs = pstmt.executeQuery();
 
@@ -476,12 +516,6 @@ public class ventana_principal {
 		internalFrame_3.revalidate();
 		internalFrame_3.repaint();
 		
-		JScrollPane scrollPane3 = new JScrollPane(panel_5);
-		scrollPane3.setBounds(0, 0, 736, 657); // Ajustar el tamaño y la ubicación del JScrollPane
-		internalFrame_11.getContentPane().add(scrollPane3);
-		// Agregar el JScrollPane al internal frame
-		internalFrame_11.revalidate();
-		internalFrame_11.repaint();
 		
 		
 		  
