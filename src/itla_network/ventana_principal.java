@@ -175,7 +175,7 @@ public class ventana_principal {
 	    //panel_5.setBounds(54, 1, 686, 513); // Posición y tamaño iniciales
 
 		// Ajustar el tamaño del panel usando Dimension
-		panel_5.setPreferredSize(new Dimension(736, 4000));	
+		panel_5.setPreferredSize(new Dimension(736, 6000));	
 		panel_5.setLayout(new BorderLayout());
 
 		// Crear el JScrollPane con el panel como contenido
@@ -510,7 +510,7 @@ public class ventana_principal {
 		
 		  // Crear un JScrollPane y agregarle el JPanel
 		JScrollPane scrollPane2 = new JScrollPane(panel_1);
-		scrollPane2.setBounds(0, 0, 342, 657); // Ajustar el tamaño y la ubicación del JScrollPane
+		scrollPane2.setBounds(0, 0, 336, 657); // Ajustar el tamaño y la ubicación del JScrollPane
 		internalFrame_3.getContentPane().add(scrollPane2);
 		// Agregar el JScrollPane al internal frame
 		internalFrame_3.revalidate();
