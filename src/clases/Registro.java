@@ -31,7 +31,7 @@ public class Registro {
 	    	 Conexion_mysql insertConexion_mysql = new Conexion_mysql();
 	 	    Connection coneinsetConnection= insertConexion_mysql.getConnection();
 	 	    
-	 	    
+	 	   JOptionPane.showMessageDialog(null, "confirmacion de los datos, son enviados correctamente");
 	 	    try {
 				PreparedStatement inserrtPreparedStatement = coneinsetConnection.prepareStatement("insert into Usuarios(Nombre_USUARIO, Correo, contraseña, telefono) values(?,?,?,?)");
 			inserrtPreparedStatement.setString(1, NombreDeusuario);
@@ -39,7 +39,7 @@ public class Registro {
 			inserrtPreparedStatement.setString(3, contraseña);
 			inserrtPreparedStatement.setString(4, telefono);
              inserrtPreparedStatement.executeUpdate();
-             JOptionPane.showMessageDialog(null, "confirmacion de los datos, son enviados correctamente");
+            
 	 	    
 	 	    } catch (SQLException e) {
 				// TODO Auto-generated catch block

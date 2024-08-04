@@ -63,6 +63,8 @@ public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
+	JPanel panel_5 = new JPanel();
+
 	 int count = 70;
 	Perfil miperfil = Perfil.getInstance();
    String nombre_user =miperfil.getNombre_Perfil();
@@ -89,6 +91,7 @@ public class ventana_principal {
 	 */
 	public ventana_principal() {
 		initialize();
+		veerimages();
 	}
 
 	/**
@@ -168,7 +171,6 @@ public class ventana_principal {
 	
 		internalFrame_11.getContentPane().setLayout(null);
 		
-		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(1, 1, 736, 655);
 		panel_5.setLayout(null);
 		internalFrame_11.getContentPane().add(panel_5);
@@ -537,103 +539,13 @@ public class ventana_principal {
 		
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
 		
-		btnNewButton_3_1_3.addActionListener(new ActionListener() {
-					
-
-					public void actionPerformed(ActionEvent e) {
-						Conexion_mysql cone = new Conexion_mysql();
-					
-		     
-		 try {
-			 
-			 
-							Connection coneConnection = cone.getConnection(); 
-							PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ? ");
-							consulPreparedStatement2.setString(1, nombre_user);
-							ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
-							int resultado = -1;
-							if (resultadoResultSet2.next()) {
-								resultado = resultadoResultSet2.getInt("ID_Usuarios");
-							}
-						
-							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN, DESCRIPCION from post where CuentaID = ?");
-							consulPreparedStatement.setInt(1, resultado);
-							 
-							ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
-							
-							
-					        while (resultadoResultSet.next()) {
-					        
-								
-						
-							java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
-							String descripcionString = resultadoResultSet.getString("DESCRIPCION");
-							if (imge!=null) {
-								 byte[] pre = imge.getBytes(1, (int) imge.length());
-						            
-									
-							
-					           
-				            	 BufferedImage imagenBufferedImage = null;
 		
-					           
-					           
-					            if (pre!= null && pre.length > 0) {
-									
-					            try {
-					            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
-								} catch (IOException e2) {
-									java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
-								}
-					            JPanel panel_3 = new JPanel();
-					            JLabel otroLabel = new JLabel(nombre_user);
-					            JLabel otroLabel2 = new JLabel(descripcionString);
-
-					            
-					            
-					            panel_3.setBounds(55, count, 605, 426);
-					            
-					    		panel_3.setLayout(null);
-					    		
-					    		
-					    		count = 200 ; count++;
-					            
-					            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
-					           
-					           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
-					           panel_3.add(btnNewButton_1);	
-					           btnNewButton_1.setBounds(300, 240, 240, 32);
-					           otroLabel.setSize(btnNewButton_1.getSize());
-					           
-					           otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
-
-					    		panel_3.add(tglbtnNewToggleButton);
-					    		tglbtnNewToggleButton.setBounds(65, 240, 240, 32);
-					           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
-					           lblNewLabel_1.setSize(panel_3.getSize());
-					           panel_3.add(otroLabel);
-					           panel_3.add(otroLabel2);
-					           panel_3.add(lblNewLabel_1);
-					           panel_5.add(panel_3);
-					          
-					           
-					    	}
 		
-					    		  //JOptionPane.showMessageDialog(null, "funcional");
-					    		
-							}
-					        
-					    	}
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-	
-		 
+
+		
+		
 				 		 
-					}
 					
-				});
 		btnNewButton_3_1_3.setBounds(0, 32, 193, 38);
 		
 		btnNewButton_3_1_3.setBounds(0, 246, 193, 33);
@@ -656,4 +568,100 @@ public class ventana_principal {
 		internalFrame_2.setVisible(true);
 		internalFrame_11.setVisible(true);
 	}
+	
+	
+	public void veerimages() {		
+		
+		
+		Conexion_mysql cone = new Conexion_mysql();
+		
+		
+	     
+		try {
+		 
+		 
+						Connection coneConnection = cone.getConnection(); 
+						PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ? ");
+						consulPreparedStatement2.setString(1, nombre_user);
+						ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
+						int resultado = -1;
+						if (resultadoResultSet2.next()) {
+							resultado = resultadoResultSet2.getInt("ID_Usuarios");
+						}
+					
+						PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN, DESCRIPCION from post where CuentaID = ?");
+						consulPreparedStatement.setInt(1, resultado);
+						 
+						ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
+						
+						
+				        while (resultadoResultSet.next()) {
+				        
+							
+					
+						java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
+						String descripcionString = resultadoResultSet.getString("DESCRIPCION");
+						if (imge!=null) {
+							 byte[] pre = imge.getBytes(1, (int) imge.length());
+					            
+								
+						
+				           
+			            	 BufferedImage imagenBufferedImage = null;
+
+				           
+				           
+				            if (pre!= null && pre.length > 0) {
+								
+				            try {
+				            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
+							} catch (IOException e2) {
+								java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
+							}
+				            JPanel panel_3 = new JPanel();
+				            JLabel otroLabel = new JLabel(nombre_user);
+				            JLabel otroLabel2 = new JLabel(descripcionString);
+
+				            
+				            
+				            panel_3.setBounds(55, count, 605, 426);
+				            
+				    		panel_3.setLayout(null);
+				    		
+				    		
+				    		count = 200 ; count++;
+				            
+				            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+				           
+				           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
+				           panel_3.add(btnNewButton_1);	
+				           btnNewButton_1.setBounds(300, 240, 240, 32);
+				           otroLabel.setSize(btnNewButton_1.getSize());
+				           
+				           otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
+
+				    		panel_3.add(tglbtnNewToggleButton);
+				    		tglbtnNewToggleButton.setBounds(65, 240, 240, 32);
+				           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
+				           lblNewLabel_1.setSize(panel_3.getSize());
+				           panel_3.add(otroLabel);
+				           panel_3.add(otroLabel2);
+				           panel_3.add(lblNewLabel_1);
+				           panel_5.add(panel_3);
+				          
+				           
+				    	}
+
+				    		  //JOptionPane.showMessageDialog(null, "funcional");
+				    		
+						}
+				        
+				    	}
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		
+		
+	};
 }
