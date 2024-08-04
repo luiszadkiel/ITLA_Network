@@ -58,24 +58,121 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.UIManager;
 import javax.swing.JSpinner;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.border.CompoundBorder;
+import java.awt.GridLayout;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
 	JPanel panel_5 = new JPanel();
+	 int count = 500;
+		Perfil miperfil = Perfil.getInstance();
+		int id = -1;
+	   String nombre_user =miperfil.getNombre_Perfil();
+	   int likescount = 0;
+	ActionListener likesActionListener = new ActionListener() {  // Hace falta pruebas desde la ultima actualizacion se agregaban todos los likes a todos los post aqui puede que este la solucion
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {  
+			JToggleButton source = (JToggleButton) e.getSource();
+			Conexion_mysql conexion_mysql = new Conexion_mysql();
+			Connection conen = conexion_mysql.getConnection();
+			if (source.isSelected()) {
+try {
+					likescount++;
+				
+					PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM  Usuarios WHERE Nombre_USUARIO = ?"); 
+					preparedStatement4.setString(1, nombre_user);
+					ResultSet resultSet = preparedStatement4.executeQuery();
+					
+					
+					if (resultSet.next()) {
+						 id = resultSet.getInt("ID_Usuarios");
+					}
+					/*PreparedStatement preparedStatement5 = conen.prepareStatement("select ID_post from post where CuentaID = ?");
+					preparedStatement5.setInt(1, id);
+					ResultSet idResultSet = preparedStatement5.executeQuery();
+					int nose = -1;*/
+				
+					
+					if (likescount < 2) {
+						PreparedStatement preparedStatement3 = conen.prepareStatement("insert into Likes(CuentaID, Cantidad_Like) values(?,?)"); 
+						
+						preparedStatement3.setInt(1, id);
+						preparedStatement3.setInt(2, likescount);
+						
+						preparedStatement3.executeUpdate();
+					}else {
+                        PreparedStatement preparedStatement3 = conen.prepareStatement("update Likes set Cantidad_Like = Cantidad_Like + ? where CuentaID = ?"); 
+						
+						preparedStatement3.setInt(1, likescount);
+						preparedStatement3.setInt(2, id);
+					}
+					
+					
+					
+					PreparedStatement preparedStatement = conen.prepareStatement("select Cantidad_Like from Likes where CuentaID = ?");
+					preparedStatement.setInt(1, id);
 
-	 int count = 70;
-	Perfil miperfil = Perfil.getInstance();
-   String nombre_user =miperfil.getNombre_Perfil();
+					ResultSet cantidadResultSet = preparedStatement.executeQuery();
+					
+					if (cantidadResultSet.next()) {
+						if (cantidadResultSet.getInt("count(Cantidad_Like)")>0) {
+							   source.setText("Likes " + cantidadResultSet.getInt("count(Cantidad_Like)")); 
+						}
+					}
+				} catch (SQLException e2) {
+					JOptionPane.showMessageDialog(null, "Error de likes " + e2);
+				}
+			}else {
+				
+				
+				likescount++;
+                try {
+                	PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM  Usuarios WHERE Nombre_USUARIO = ?"); 
+					preparedStatement4.setString(1, nombre_user);
+					ResultSet resultSet = preparedStatement4.executeQuery();
+					if (resultSet.next()) {
+						 id = resultSet.getInt("ID_Usuarios");
+					}
+					PreparedStatement preparedStatement3 = conen.prepareStatement("update Likes set Cantidad_Like = Cantidad_Like - ? where CuentaID = ?");
+					preparedStatement3.setInt(1, likescount);
+					preparedStatement3.setInt(2, id);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} // hay que esperar a hacer que la interfaz de registro
+				
+			}
+				
+				
+				
+				   
+			
+		}
+	};
 	
 	
 	
+	ActionListener botonescomentariosActionListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ComentariosV frame = new ComentariosV();
+			frame.setVisible(true);		
+		}
+	};
 
-  
+		
+	
+	
 
-	JButton btnNewButton_1 = new JButton("comentarios");
-	JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
+
+	
+	
+	
 	ArrayList<JPanel>panelesArrayList =new ArrayList<JPanel>();
 	int likes=0;
 	JFrame frame;
@@ -162,53 +259,39 @@ public class ventana_principal {
 		
 		
 		
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
+		
+		
 		
 		
 	
 		internalFrame_11.getContentPane().setLayout(null);
 		
-		panel_5.setBounds(1, 1, 736, 655);
-		panel_5.setLayout(null);
-		internalFrame_11.getContentPane().add(panel_5);
-		
-		
-		tglbtnNewToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			if (tglbtnNewToggleButton.isSelected()) {
-				likes++;
-			}else {
-				likes--;
-				
-			}
-				
-				Conexion_mysql conexion_mysql = new Conexion_mysql();
-				try {
-					
-					Connection conen = conexion_mysql.getConnection();
-					PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM  Usuarios WHERE Nombre_USUARIO ="); // hay que esperar a hacer que la interfaz de registro
 
-					
-					PreparedStatement preparedStatement3 = conen.prepareStatement("insert into Likes(CuentaID, Cantidad_Like) values()"); // hay que esperar a hacer que la interfaz de registro
-					preparedStatement3.executeUpdate();
-					PreparedStatement preparedStatement = conen.prepareStatement("Update Likes set Cantidad_Like = '?' ");
-					preparedStatement.setInt(1, likes);
-					int coneResultSet = preparedStatement.executeUpdate();
-					
-				   if (coneResultSet>0) {
-					   tglbtnNewToggleButton.setText("Likes " + coneResultSet);
-				}
-					
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Error de likes");
-				}
-			}
-		});
-		
+		panel_5.setBounds(1, 1, 736, 655);
+		internalFrame_11.getContentPane().add(panel_5);
+
+		panel_5.setBackground(Color.BLACK);
+	    //panel_5.setBounds(54, 1, 686, 513); // Posición y tamaño iniciales
+
+		// Ajustar el tamaño del panel usando Dimension
+		panel_5.setPreferredSize(new Dimension(736, 6000));	
+		//panel_5.setLayout(new BorderLayout());
+
+		// Crear el JScrollPane con el panel como contenido
+		JScrollPane scrollPane_3 = new JScrollPane(panel_5);
+		panel_5.setLayout(new GridLayout(0,1));
+
+		// Ajustar el tamaño y agregar el JScrollPane al internal frame
+		scrollPane_3.setBounds(0, 0, 758, 513);	
+		internalFrame_11.getContentPane().add(scrollPane_3, BorderLayout.CENTER);
+
+		// Actualizar el internal frame
+		internalFrame_11.revalidate();
+		internalFrame_11.repaint();
 	
+		
+
 		
 		
 		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));
@@ -244,7 +327,7 @@ public class ventana_principal {
 		//----------------------------------------------------------------------------------------
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1005, 11, 342, 657);
+		internalFrame_3.setBounds(1005, 10, 342, 710);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
@@ -329,35 +412,57 @@ public class ventana_principal {
 				    Connection coneConnection = conn.getConnection(); 
 
 				    // Consulta SQL
-				    String sql = "SELECT c.chat_id, " +
-				                 "       u.ID_Usuarios AS user_id, " +
-				                 "       u.Nombre_USUARIO AS nombre_usuario, " +
-				                 "       m.texto_mensaje AS ultimo_mensaje, " +
-				                 "       m.hora_envio AS ultima_hora_envio " +
-				                 "FROM Chat_usuarios cu " +
-				                 "JOIN Chat c ON cu.chat_id = c.chat_id " +
-				                 "JOIN Mensaje m ON c.chat_id = m.chat_id " +
-				                 "JOIN Usuarios u ON m.user_id = u.ID_Usuarios " +
-				                 "WHERE cu.chat_id IN ( " +
-				                 "    SELECT chat_id " +
-				                 "    FROM Chat_usuarios " +
-				                 "    WHERE user_id = ( " +
-				                 "        SELECT ID_Usuarios " +
-				                 "        FROM Usuarios " +
-				                 "        WHERE Nombre_USUARIO = ? " +
-				                 "    ) " +
-				                 ") " +
-				                 "AND m.hora_envio = ( " +
-				                 "    SELECT MAX(hora_envio) " +
-				                 "    FROM Mensaje " +
-				                 "    WHERE chat_id = c.chat_id " +
-				                 ") " +
-				                 "ORDER BY c.chat_id, m.hora_envio DESC";
+				    String sql = "SELECT " +
+		                     "    c.chat_id, " +
+		                     "    u.ID_Usuarios AS user_id, " +
+		                     "    u.Nombre_USUARIO AS nombre_usuario, " +
+		                     "    m.texto_mensaje AS ultimo_mensaje, " +
+		                     "    m.hora_envio AS ultima_hora_envio " +
+		                     "FROM " +
+		                     "    Chat_usuarios cu " +
+		                     "JOIN " +
+		                     "    Chat c ON cu.chat_id = c.chat_id " +
+		                     "JOIN " +
+		                     "    ( " +
+		                     "        SELECT " +
+		                     "            m1.chat_id, " +
+		                     "            m1.user_id, " +
+		                     "            m1.texto_mensaje, " +
+		                     "            m1.hora_envio " +
+		                     "        FROM " +
+		                     "            Mensaje m1 " +
+		                     "        INNER JOIN ( " +
+		                     "            SELECT " +
+		                     "                chat_id, " +
+		                     "                MAX(hora_envio) AS ultima_hora " +
+		                     "            FROM " +
+		                     "                Mensaje " +
+		                     "            GROUP BY " +
+		                     "                chat_id " +
+		                     "        ) m2 ON m1.chat_id = m2.chat_id AND m1.hora_envio = m2.ultima_hora " +
+		                     "    ) m ON c.chat_id = m.chat_id " +
+		                     "JOIN " +
+		                     "    Usuarios u ON m.user_id = u.ID_Usuarios " +
+		                     "WHERE " +
+		                     "    cu.user_id = ( " +
+		                     "        SELECT " +
+		                     "            ID_Usuarios " +
+		                     "        FROM " +
+		                     "            Usuarios " +
+		                     "        WHERE " +
+		                     "            Nombre_USUARIO = ? " +
+		                     "    ) " +
+		                     "AND " +
+		                     "    u.Nombre_USUARIO != ? " +
+		                     "ORDER BY " +
+		                     "    c.chat_id, m.hora_envio DESC " +
+		                     "LIMIT 0, 2000";
 
 				    // Crear la consulta preparada
 				    pstmt = coneConnection.prepareStatement(sql);
 				    pstmt.setString(1, nombre_user); // Aquí puedes establecer el valor del parámetro user_id
-
+				    pstmt.setString(2, nombre_user);
+				    
 				    // Ejecutar la consulta
 				    rs = pstmt.executeQuery();
 
@@ -472,18 +577,12 @@ public class ventana_principal {
 		
 		  // Crear un JScrollPane y agregarle el JPanel
 		JScrollPane scrollPane2 = new JScrollPane(panel_1);
-		scrollPane2.setBounds(0, 0, 342, 657); // Ajustar el tamaño y la ubicación del JScrollPane
+		scrollPane2.setBounds(0, 0, 336, 657); // Ajustar el tamaño y la ubicación del JScrollPane
 		internalFrame_3.getContentPane().add(scrollPane2);
 		// Agregar el JScrollPane al internal frame
 		internalFrame_3.revalidate();
 		internalFrame_3.repaint();
 		
-		JScrollPane scrollPane3 = new JScrollPane(panel_5);
-		scrollPane3.setBounds(0, 0, 736, 657); // Ajustar el tamaño y la ubicación del JScrollPane
-		internalFrame_11.getContentPane().add(scrollPane3);
-		// Agregar el JScrollPane al internal frame
-		internalFrame_11.revalidate();
-		internalFrame_11.repaint();
 		
 		
 		  
@@ -621,15 +720,22 @@ public class ventana_principal {
 				            JPanel panel_3 = new JPanel();
 				            JLabel otroLabel = new JLabel(nombre_user);
 				            JLabel otroLabel2 = new JLabel(descripcionString);
+				            JButton btnNewButton_1 = new JButton("comentarios");
+				            btnNewButton_1.addActionListener(botonescomentariosActionListener);
+				        	JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
 
-				            
+				            tglbtnNewToggleButton.addActionListener(likesActionListener);
 				            
 				            panel_3.setBounds(55, count, 605, 426);
 				            
 				    		panel_3.setLayout(null);
 				    		
 				    		
-				    		count = 200 ; count++;
+				    	    
+				    	     if (count== 1000) {
+				    	    	 
+				    	    	 count = 1500; count++; 
+				    	     }
 				            
 				            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 				           
@@ -648,6 +754,7 @@ public class ventana_principal {
 				           panel_3.add(otroLabel2);
 				           panel_3.add(lblNewLabel_1);
 				           panel_5.add(panel_3);
+				           count++;
 				          
 				           
 				    	}
@@ -663,5 +770,5 @@ public class ventana_principal {
 					}
 		
 		
-	};
+	}
 }
