@@ -47,6 +47,7 @@ import com.mysql.cj.jdbc.Blob;
 import com.mysql.cj.xdevapi.Statement;
 
 import basedatos.Conexion_mysql;
+import clases.Chat;
 import clases.Perfil;
 
 import javax.swing.JToggleButton;
@@ -69,7 +70,7 @@ public class ventana_principal {
 	Perfil miperfil = Perfil.getInstance();
    String nombre_user =miperfil.getNombre_Perfil();
 	
-	
+   String nombreUsuario1 = null;
 	
 
   
@@ -260,7 +261,7 @@ public class ventana_principal {
 		//----------------------------------------------------------------------------------------
 		internalFrame_3.getContentPane().setBackground(new Color(0, 0, 0));
 		internalFrame_3.setClosable(true);
-		internalFrame_3.setBounds(1005, 10, 342, 710);
+		internalFrame_3.setBounds(1005, 10, 342, 662);
 		panel.add(internalFrame_3);
 		internalFrame_3.getContentPane().setLayout(null);
 		
@@ -289,7 +290,7 @@ public class ventana_principal {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Segoe Script", Font.PLAIN, 20));
 		lblNewLabel.setForeground(UIManager.getColor("Button.background"));
-		lblNewLabel.setBounds(10, 44, 202, 52);
+		lblNewLabel.setBounds(10, 10, 212, 55);
 		panel.add(lblNewLabel);
 		
 		JInternalFrame internalFrame1 = new JInternalFrame("Menú");
@@ -329,128 +330,148 @@ public class ventana_principal {
 		
 		JButton btnChat = new JButton("Chat");
 		btnChat.addActionListener(new ActionListener() {
+			private int iduser_log;
+
 			public void actionPerformed(ActionEvent e) {
 				internalFrame_3.setVisible(true);
-				
-				
-				 //-------------------------------------------------------------------
-				 //CARGAR LOS USUARIOS EN EL CHAT
-				//CARGAR LOS USUARIOS EN EL CHAT
+				//-------------------------------------------------------------------
+				// CARGAR LOS USUARIOS EN EL CHAT
+				//-------------------------------------------------------------------
 				Conexion_mysql conn = new Conexion_mysql();
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
+				
+				
+				
+				    Perfil perfil = Perfil.getInstance();
+			        String nombre = perfil.getNombre_Perfil();
+			    	
+			        
+			        String query = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
 
-				try {
-				    // Supongamos que Conexion_mysql es una clase que gestiona la conexión a la base de datos
-				    Connection coneConnection = conn.getConnection(); 
+			        try (PreparedStatement stmt = conn.getConnection().prepareStatement(query)){
+			             
+			        	// Asignar valor al parámetro de la consulta
+			        	stmt.setString(1, nombre);
 
-				    // Consulta SQL
-				    String sql = "SELECT " +
-		                     "    c.chat_id, " +
-		                     "    u.ID_Usuarios AS user_id, " +
-		                     "    u.Nombre_USUARIO AS nombre_usuario, " +
-		                     "    m.texto_mensaje AS ultimo_mensaje, " +
-		                     "    m.hora_envio AS ultima_hora_envio " +
-		                     "FROM " +
-		                     "    Chat_usuarios cu " +
-		                     "JOIN " +
-		                     "    Chat c ON cu.chat_id = c.chat_id " +
-		                     "JOIN " +
-		                     "    ( " +
-		                     "        SELECT " +
-		                     "            m1.chat_id, " +
-		                     "            m1.user_id, " +
-		                     "            m1.texto_mensaje, " +
-		                     "            m1.hora_envio " +
-		                     "        FROM " +
-		                     "            Mensaje m1 " +
-		                     "        INNER JOIN ( " +
-		                     "            SELECT " +
-		                     "                chat_id, " +
-		                     "                MAX(hora_envio) AS ultima_hora " +
-		                     "            FROM " +
-		                     "                Mensaje " +
-		                     "            GROUP BY " +
-		                     "                chat_id " +
-		                     "        ) m2 ON m1.chat_id = m2.chat_id AND m1.hora_envio = m2.ultima_hora " +
-		                     "    ) m ON c.chat_id = m.chat_id " +
-		                     "JOIN " +
-		                     "    Usuarios u ON m.user_id = u.ID_Usuarios " +
-		                     "WHERE " +
-		                     "    cu.user_id = ( " +
-		                     "        SELECT " +
-		                     "            ID_Usuarios " +
-		                     "        FROM " +
-		                     "            Usuarios " +
-		                     "        WHERE " +
-		                     "            Nombre_USUARIO = ? " +
-		                     "    ) " +
-		                     "AND " +
-		                     "    u.Nombre_USUARIO != ? " +
-		                     "ORDER BY " +
-		                     "    c.chat_id, m.hora_envio DESC " +
-		                     "LIMIT 0, 2000";
+			            // Ejecutar la consulta
+			            ResultSet rs = stmt.executeQuery();
 
-				    // Crear la consulta preparada
-				    pstmt = coneConnection.prepareStatement(sql);
-				    pstmt.setString(1, nombre_user); // Aquí puedes establecer el valor del parámetro user_id
-				    pstmt.setString(2, nombre_user);
+			            // Procesar el resultado
+			            if (rs.next()) {
+			                int userID = rs.getInt("ID_Usuarios");
+			                setIdUserLoggedIn(userID);
+			  
+			            }
+
+			           } catch (SQLException e1) {
+			               e1.printStackTrace();
+			           }
+				
+				
+				
+				
+				
+				
+				String sql =   "SELECT m.chat_id, m.user_id, u.Nombre_USUARIO, m.texto_mensaje AS ultimo_mensaje, m.hora_envio " +
+				        "FROM Mensaje m " +
+				        "INNER JOIN ( " +
+				        "    SELECT chat_id, MAX(hora_envio) AS ultima_hora_envio " +
+				        "    FROM Mensaje " +
+				        "    WHERE user_id = ? " +
+				        "    GROUP BY chat_id " +
+				        ") ult_msj " +
+				        "ON m.chat_id = ult_msj.chat_id " +
+				        "AND m.hora_envio = ult_msj.ultima_hora_envio " +
+				        "INNER JOIN usuarios u ON m.user_id = u.ID_Usuarios " +  // Unir con la tabla Usuario para obtener el nombre
+				        "ORDER BY m.hora_envio DESC;";
+
+				try (Connection coneConnection = conn.getConnection();
+				     PreparedStatement pstmt = coneConnection.prepareStatement(sql)) {
+
+				    pstmt.setInt(1, iduser_log); // Establecer el valor del parámetro user_id
+
+				  
 				    
-				    // Ejecutar la consulta
-				    rs = pstmt.executeQuery();
+				    try (ResultSet rs = pstmt.executeQuery()) {
+				        int yOffset = 11; // Offset inicial para la posición Y
 
-				    int yOffset = 11; // Inicial offset para la posición Y
+				        while (rs.next()) {
+				            int chatId = rs.getInt("chat_id");
+				            int Id_user_chat = rs.getInt("user_id");
+				            String ultimoMensaje = rs.getString("ultimo_mensaje");
 
-				    // Procesar el resultado
-				    while (rs.next()) {
-				        int chatId = rs.getInt("chat_id");
-				        String nombreUsuario = rs.getString("nombre_usuario");
-				        String ultimoMensaje = rs.getString("ultimo_mensaje");
+				            // Crear los componentes
+				            JLabel lblNewLabel_2 = new JLabel();
+				            JButton btnNombrePerfil = new JButton();
+				            JTextField textField_1 = new JTextField();
+				            JSeparator separator_3 = new JSeparator();
 
-				        // Crear los componentes
-				        JLabel lblNewLabel_2 = new JLabel();
-				        JButton btnNombrePerfil = new JButton();
-				        JTextField textField_1 = new JTextField();
-				        JSeparator separator_3 = new JSeparator();
-
-				        // Preparar la consulta para obtener la foto de perfil
-				        String sql2 = "SELECT foto_Perfil, Nombre_PERFIL FROM Perfil WHERE id_perfil = ?";
-				        PreparedStatement pstmt12 = null;
-				        ResultSet rs3 = null;
-
-				        try {
-				            pstmt12 = coneConnection.prepareStatement(sql2);
-				            pstmt12.setInt(1, chatId);
-
-				            // Ejecutar la consulta
-				            rs3 = pstmt12.executeQuery();
-
-				            // Procesar los resultados
-				            if (rs3.next()) {
-				                byte[] fotoPerfil = rs3.getBytes("foto_Perfil");
-
-				                if (fotoPerfil != null) {
-				                    // Convertir el arreglo de bytes en una imagen
-				                    ByteArrayInputStream is = new ByteArrayInputStream(fotoPerfil);
-				                    Image image = ImageIO.read(is);
-
-				                    // Ajustar la imagen al tamaño del JLabel
-				                    Image scaledImage = image.getScaledInstance(77, 66, Image.SCALE_SMOOTH);
-				                    // Establecer la imagen como el ícono del JLabel
-				                    lblNewLabel_2.setIcon(new ImageIcon(scaledImage));
-				                } else {
-				                    // Si no hay foto de perfil, mostrar un ícono por defecto o dejar el JLabel vacío
-				                    lblNewLabel_2.setIcon(null);
+				            btnNombrePerfil.addActionListener(new ActionListener() {
+				                @Override
+				                public void actionPerformed(ActionEvent e) {
+				                    chat_principal chat_principal = new chat_principal(nombreUsuario1, chatId);
+				                    chat_principal.setVisible(true);
+				                    Chat char_priv = new Chat();
+				                    char_priv.setNombre_Chat(nombreUsuario1);
+				                    char_priv.setid_chat(chatId);
+				                    char_priv.setId_user_chat(Id_user_chat);
 				                }
+				            });
+				            
+				            //--------------------------------------
 
-				                // Establecer el nombre del perfil en el JButton
-				                btnNombrePerfil.setText(nombreUsuario);
 
-				                // Configurar el JTextField con el último mensaje
-				                textField_1.setText(ultimoMensaje);
+				       
+				            String query2 = "SELECT u.Nombre_USUARIO " +
+				                    "FROM Usuarios u " +
+				                    "JOIN Chat_usuarios cu ON u.ID_Usuarios = cu.user_id " +
+				                    "WHERE cu.chat_id = ? " +
+				                    "AND u.Nombre_USUARIO != ?";
+
+				    try (PreparedStatement stmt = conn.getConnection().prepareStatement(query2)) {
+				        stmt.setInt(1, chatId);
+				        stmt.setString(2, nombre);
+				        
+				        try (ResultSet resultSet = stmt.executeQuery()) {
+				            if (resultSet.next()) {
+				                nombreUsuario1 = resultSet.getString("Nombre_USUARIO");
+				            }
+				        }
+				    } catch (SQLException e1) {
+				        e1.printStackTrace();
+				    }
+
+				            //--------------------------------------
+
+				            // Preparar la consulta para obtener la foto de perfil
+				            String sql2 = "SELECT foto_Perfil, Nombre_PERFIL FROM Perfil WHERE id_perfil = ?";
+
+				            try (PreparedStatement pstmt12 = coneConnection.prepareStatement(sql2)) {
+				                pstmt12.setInt(1, chatId);
+
+				                try (ResultSet rs3 = pstmt12.executeQuery()) {
+				                    if (rs3.next()) {
+				                        byte[] fotoPerfil = rs3.getBytes("foto_Perfil");
+
+				                        if (fotoPerfil != null) {
+				                            ByteArrayInputStream is = new ByteArrayInputStream(fotoPerfil);
+				                            Image image = ImageIO.read(is);
+
+				                            // Ajustar la imagen al tamaño del JLabel
+				                            Image scaledImage = image.getScaledInstance(77, 66, Image.SCALE_SMOOTH);
+				                            lblNewLabel_2.setIcon(new ImageIcon(scaledImage));
+				                        } else {
+				                            lblNewLabel_2.setIcon(null);
+				                        }
+
+				                        btnNombrePerfil.setText(nombreUsuario1);
+				                        textField_1.setText(ultimoMensaje);
+				                    }
+				                }
+				            } catch (Exception e1) {
+				                e1.printStackTrace();
 				            }
 
-				         // Configurar los componentes
+				            // Configurar los componentes
 				            lblNewLabel_2.setForeground(Color.WHITE);
 				            lblNewLabel_2.setBackground(Color.WHITE);
 				            lblNewLabel_2.setBounds(10, yOffset, 77, 66);
@@ -472,41 +493,32 @@ public class ventana_principal {
 
 				            // Incrementar el offset para la siguiente iteración
 				            yOffset += 96; // Ajustar según sea necesario para el espaciado entre elementos
-
-				        } catch (Exception e1) {
-				            e1.printStackTrace();
-				        } finally {
-				            // Cerrar recursos
-				            try {
-				                if (rs3 != null) rs3.close();
-				                if (pstmt12 != null) pstmt12.close();
-				            } catch (Exception e1) {
-				                e1.printStackTrace();
-				            }
 				        }
-				    }
-
-				} catch (SQLException e1) {
-				    e1.printStackTrace();
-				} finally {
-				    // Cerrar recursos
-				    try {
-				        if (rs != null) rs.close();
-				        if (pstmt != null) pstmt.close();
-				        if (conn != null) conn.close();
 				    } catch (SQLException e1) {
 				        e1.printStackTrace();
 				    }
+				} catch (SQLException e1) {
+				    e1.printStackTrace();
 				}
 
-						
-		 }
-						
-		
 				
+				
+				
+}
+
+			private void setIdUserLoggedIn(int userID) {
+				this.iduser_log = userID;
+				
+			}
 				
 			
 		});
+		
+
+		// Añadir el evento al botón
+	
+		
+		
 		
 		  // Crear un JScrollPane y agregarle el JPanel
 		JScrollPane scrollPane2 = new JScrollPane(panel_1);
@@ -517,7 +529,7 @@ public class ventana_principal {
 		internalFrame_3.repaint();
 		
 		
-		
+	
 		  
 			
 	    
@@ -685,6 +697,21 @@ public class ventana_principal {
 		});
 		btnNewButton_3_1_1_1.setBounds(0, 362, 193, 33);
 		internalFrame1.getContentPane().add(btnNewButton_3_1_1_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (3) (1).png"));
+		lblNewLabel_3.setBounds(10, 76, 64, 47);
+		panel.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_3_1 = new JLabel("New label");
+		lblNewLabel_3_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (4) (1).png"));
+		lblNewLabel_3_1.setBounds(172, 76, 50, 47);
+		panel.add(lblNewLabel_3_1);
+		
+		JLabel lblNewLabel_3_2 = new JLabel("New label");
+		lblNewLabel_3_2.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (2) (1).png"));
+		lblNewLabel_3_2.setBounds(84, 76, 64, 47);
+		panel.add(lblNewLabel_3_2);
 		internalFrame1.setVisible(true);
 		internalFrame_3.setVisible(true);
 		internalFrame_2.setVisible(true);

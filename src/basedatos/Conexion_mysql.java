@@ -60,4 +60,14 @@ public class Conexion_mysql {
 		// TODO Auto-generated method stub
 		
 	}
-}
+
+	public static void closeConnection(Connection conn) {
+		// TODO Auto-generated method stub
+		if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+	}
+}}

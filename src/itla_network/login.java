@@ -22,6 +22,7 @@ import java.awt.Color;
 import javax.swing.JSeparator;
 import clases.*;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 public class login extends JFrame {
 	int i = 0;
 	private static final long serialVersionUID = 1L;
@@ -49,6 +50,7 @@ public class login extends JFrame {
 	 * Create the frame.
 	 */
 	public login() {
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 569, 566);
 		contentPane = new JPanel();
@@ -64,12 +66,20 @@ public class login extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		
+		
+		//--------------------------mensaje a visualizar  
+		
 		textField = new JTextField();
 		textField.setForeground(Color.BLACK);
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		textField.setBounds(93, 194, 357, 48);
+		textField.setBounds(93, 234, 357, 48);
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		
+		
+		
 		
 		JButton btnNewButton = new JButton("Iniciar sesion ");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -103,14 +113,14 @@ public class login extends JFrame {
 		});
 		btnNewButton.setForeground(Color.BLACK);
 		btnNewButton.setFont(new Font("Wide Latin", Font.PLAIN, 10));
-		btnNewButton.setBounds(161, 347, 234, 57);
+		btnNewButton.setBounds(158, 365, 234, 57);
 		panel.add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("ITLA_NETWORK");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Wide Latin", Font.PLAIN, 29));
-		lblNewLabel.setBounds(10, 106, 510, 77);
+		lblNewLabel.setBounds(14, 172, 510, 77);
 		panel.add(lblNewLabel);
 		
 		JButton btnNewButton_1 = new JButton("Registrarse");
@@ -128,11 +138,16 @@ public class login extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setForeground(Color.BLACK);
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		passwordField.setBounds(93, 271, 357, 48);
+		passwordField.setBounds(93, 305, 357, 48);
 		panel.add(passwordField);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(137, 428, 273, 2);
 		panel.add(separator);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (1).png"));
+		lblNewLabel_1.setBounds(49, 34, 162, 126);
+		panel.add(lblNewLabel_1);
 	}
 }
