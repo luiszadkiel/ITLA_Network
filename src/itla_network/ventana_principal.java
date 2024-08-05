@@ -61,22 +61,96 @@ import javax.swing.UIManager;
 import javax.swing.JSpinner;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.CompoundBorder;
+import java.awt.GridLayout;
 
 public class ventana_principal {
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
-	 int count = 70;
-	Perfil miperfil = Perfil.getInstance();
-   String nombre_user =miperfil.getNombre_Perfil();
+	JPanel panel_5 = new JPanel();
+	int nose = -1;
+	 int count = 50;
+		Perfil miperfil = Perfil.getInstance();
+		int id = -1;
+	   String nombre_user =miperfil.getNombre_Perfil();
+	   int likescount = 0;
+	   ActionListener likesActionListener = new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        JToggleButton source = (JToggleButton) e.getSource();
+		        int postId = Integer.parseInt(source.getName()); // Obtener el ID del post del nombre del botón
+		        Conexion_mysql conexion_mysql = new Conexion_mysql();
+		        Connection conen = conexion_mysql.getConnection();
+		        try {
+		            // Obtener el ID del usuario
+		            PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?");
+		            preparedStatement4.setString(1, nombre_user);
+		            ResultSet resultSet = preparedStatement4.executeQuery();
+
+		            int userId = -1;
+		            if (resultSet.next()) {
+		                userId = resultSet.getInt("ID_Usuarios");
+		            }
+
+		            // Verificar si el usuario ya ha dado like al post
+		            PreparedStatement preparedStatementCheck = conen.prepareStatement("SELECT * FROM Likes WHERE ID_Usuarios = ? AND PostID = ?");
+		            preparedStatementCheck.setInt(1, userId);
+		            preparedStatementCheck.setInt(2, postId);
+		            ResultSet checkResultSet = preparedStatementCheck.executeQuery();
+
+		            if (source.isSelected()) {
+		                if (!checkResultSet.next()) {
+		                    // Insertar nuevo like si no existe
+		                    PreparedStatement preparedStatementInsert = conen.prepareStatement("INSERT INTO Likes(ID_Usuarios, Cantidad_Like, PostID) VALUES(?, 1, ?)");
+		                    preparedStatementInsert.setInt(1, userId);
+		                    preparedStatementInsert.setInt(2, postId);
+		                    preparedStatementInsert.executeUpdate();
+		                }
+		            } else {
+		                if (checkResultSet.next()) {
+		                    // Eliminar el like si existe
+		                    PreparedStatement preparedStatementDelete = conen.prepareStatement("DELETE FROM Likes WHERE ID_Usuarios = ? AND PostID = ?");
+		                    preparedStatementDelete.setInt(1, userId);
+		                    preparedStatementDelete.setInt(2, postId);
+		                    preparedStatementDelete.executeUpdate();
+		                }
+		            }
+
+		            // Obtener la cantidad total de likes para este post
+		            PreparedStatement preparedStatement = conen.prepareStatement("SELECT COUNT(*) AS totalLikes FROM Likes WHERE PostID = ?");
+		            preparedStatement.setInt(1, postId);
+		            ResultSet cantidadResultSet = preparedStatement.executeQuery();
+
+		            if (cantidadResultSet.next()) {
+		                source.setText("Likes " + cantidadResultSet.getInt("totalLikes"));
+		            }
+		        } catch (SQLException e1) {
+		            e1.printStackTrace();
+		        }
+		    }
+		};
+
+
 	
    String nombreUsuario1 = null;
 	
+	ActionListener botonescomentariosActionListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ComentariosV frame = new ComentariosV();
+			frame.setVisible(true);		
+		}
+	};
 
-  
+		
+	
+	
 
-	JButton btnNewButton_1 = new JButton("comentarios");
-	JToggleButton tglbtnNewToggleButton = new JToggleButton("likes");
+
+	
+	
+	
 	ArrayList<JPanel>panelesArrayList =new ArrayList<JPanel>();
 	int likes=0;
 	JFrame frame;
@@ -92,6 +166,7 @@ public class ventana_principal {
 	 */
 	public ventana_principal() {
 		initialize();
+		veerimages();
 	}
 
 	/**
@@ -162,25 +237,28 @@ public class ventana_principal {
 		
 		
 		
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
+		
+		
 		
 		
 	
 		internalFrame_11.getContentPane().setLayout(null);
 		
-		JPanel panel_5 = new JPanel();
+
+		panel_5.setBounds(1, 1, 736, 655);
+		internalFrame_11.getContentPane().add(panel_5);
+
 		panel_5.setBackground(Color.BLACK);
 	    //panel_5.setBounds(54, 1, 686, 513); // Posición y tamaño iniciales
 
 		// Ajustar el tamaño del panel usando Dimension
 		panel_5.setPreferredSize(new Dimension(736, 6000));	
-		panel_5.setLayout(new BorderLayout());
+		//panel_5.setLayout(new BorderLayout());
 
 		// Crear el JScrollPane con el panel como contenido
 		JScrollPane scrollPane_3 = new JScrollPane(panel_5);
+		panel_5.setLayout(new GridLayout(0,1));
 
 		// Ajustar el tamaño y agregar el JScrollPane al internal frame
 		scrollPane_3.setBounds(0, 0, 758, 513);	
@@ -191,41 +269,7 @@ public class ventana_principal {
 		internalFrame_11.repaint();
 	
 		
-		
-		
-		tglbtnNewToggleButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			if (tglbtnNewToggleButton.isSelected()) {
-				likes++;
-			}else {
-				likes--;
-				
-			}
-				
-				Conexion_mysql conexion_mysql = new Conexion_mysql();
-				try {
-					
-					Connection conen = conexion_mysql.getConnection();
-					PreparedStatement preparedStatement4 = conen.prepareStatement("SELECT ID_Usuarios FROM  Usuarios WHERE Nombre_USUARIO ="); // hay que esperar a hacer que la interfaz de registro
 
-					
-					PreparedStatement preparedStatement3 = conen.prepareStatement("insert into Likes(CuentaID, Cantidad_Like) values()"); // hay que esperar a hacer que la interfaz de registro
-					preparedStatement3.executeUpdate();
-					PreparedStatement preparedStatement = conen.prepareStatement("Update Likes set Cantidad_Like = '?' ");
-					preparedStatement.setInt(1, likes);
-					int coneResultSet = preparedStatement.executeUpdate();
-					
-				   if (coneResultSet>0) {
-					   tglbtnNewToggleButton.setText("Likes " + coneResultSet);
-				}
-					
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Error de likes");
-				}
-			}
-		});
-		
-	
 		
 		
 		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));
@@ -583,103 +627,13 @@ public class ventana_principal {
 		
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
 		
-		btnNewButton_3_1_3.addActionListener(new ActionListener() {
-					
-
-					public void actionPerformed(ActionEvent e) {
-						Conexion_mysql cone = new Conexion_mysql();
-					
-		     
-		 try {
-			 
-			 
-							Connection coneConnection = cone.getConnection(); 
-							PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ? ");
-							consulPreparedStatement2.setString(1, nombre_user);
-							ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
-							int resultado = -1;
-							if (resultadoResultSet2.next()) {
-								resultado = resultadoResultSet2.getInt("ID_Usuarios");
-							}
-						
-							PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select IMAGEN, DESCRIPCION from post where CuentaID = ?");
-							consulPreparedStatement.setInt(1, resultado);
-							 
-							ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
-							
-							
-					        while (resultadoResultSet.next()) {
-					        
-								
-						
-							java.sql.Blob imge=resultadoResultSet.getBlob("IMAGEN");
-							String descripcionString = resultadoResultSet.getString("DESCRIPCION");
-							if (imge!=null) {
-								 byte[] pre = imge.getBytes(1, (int) imge.length());
-						            
-									
-							
-					           
-				            	 BufferedImage imagenBufferedImage = null;
 		
-					           
-					           
-					            if (pre!= null && pre.length > 0) {
-									
-					            try {
-					            	imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
-								} catch (IOException e2) {
-									java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
-								}
-					            JPanel panel_3 = new JPanel();
-					            JLabel otroLabel = new JLabel(nombre_user);
-					            JLabel otroLabel2 = new JLabel(descripcionString);
-
-					            
-					            
-					            panel_3.setBounds(55, count, 605, 426);
-					            
-					    		panel_3.setLayout(null);
-					    		
-					    		
-					    		count = 200 ; count++;
-					            
-					            ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
-					           
-					           Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
-					           panel_3.add(btnNewButton_1);	
-					           btnNewButton_1.setBounds(300, 240, 240, 32);
-					           otroLabel.setSize(btnNewButton_1.getSize());
-					           
-					           otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
-
-					    		panel_3.add(tglbtnNewToggleButton);
-					    		tglbtnNewToggleButton.setBounds(65, 240, 240, 32);
-					           JLabel lblNewLabel_1 = new JLabel(imagenIcon);
-					           lblNewLabel_1.setSize(panel_3.getSize());
-					           panel_3.add(otroLabel);
-					           panel_3.add(otroLabel2);
-					           panel_3.add(lblNewLabel_1);
-					           panel_5.add(panel_3);
-					          
-					           
-					    	}
 		
-					    		  //JOptionPane.showMessageDialog(null, "funcional");
-					    		
-							}
-					        
-					    	}
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-	
-		 
+
+		
+		
 				 		 
-					}
 					
-				});
 		btnNewButton_3_1_3.setBounds(0, 32, 193, 38);
 		
 		btnNewButton_3_1_3.setBounds(0, 246, 193, 33);
@@ -716,5 +670,76 @@ public class ventana_principal {
 		internalFrame_3.setVisible(true);
 		internalFrame_2.setVisible(true);
 		internalFrame_11.setVisible(true);
+	}
+	
+	
+	public void veerimages() {		
+		Conexion_mysql cone = new Conexion_mysql();
+		
+		try {
+			Connection coneConnection = cone.getConnection(); 
+			PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
+			consulPreparedStatement2.setString(1, nombre_user);
+			ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
+			int resultado = -1;
+			if (resultadoResultSet2.next()) {
+				resultado = resultadoResultSet2.getInt("ID_Usuarios");
+			}
+			
+			PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select ID_post, IMAGEN, DESCRIPCION from post where UsuarioID = ?");
+			consulPreparedStatement.setInt(1, resultado);
+			 
+			ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
+			
+			while (resultadoResultSet.next()) {
+				int postId = resultadoResultSet.getInt("ID_post"); // Obtener el ID del post
+				java.sql.Blob imge = resultadoResultSet.getBlob("IMAGEN");
+				String descripcionString = resultadoResultSet.getString("DESCRIPCION");
+				
+				if (imge != null) {
+					byte[] pre = imge.getBytes(1, (int) imge.length());
+					BufferedImage imagenBufferedImage = null;
+
+					if (pre != null && pre.length > 0) {
+						try {
+							imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
+						} catch (IOException e2) {
+							java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
+						}
+						
+						JPanel panel_3 = new JPanel();
+						JLabel otroLabel = new JLabel(nombre_user);
+						JLabel otroLabel2 = new JLabel(descripcionString);
+						JButton btnNewButton_1 = new JButton("comentarios");
+						btnNewButton_1.addActionListener(botonescomentariosActionListener);
+						
+						JToggleButton tglbtnNewToggleButton = new JToggleButton("likes 0");
+						tglbtnNewToggleButton.setName(String.valueOf(postId)); // Asociar el ID del post al botón
+						tglbtnNewToggleButton.addActionListener(likesActionListener);
+						
+						panel_3.setBounds(55, 0, 605, 426);
+						panel_3.setLayout(null);
+						
+						ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+						Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
+						panel_3.add(btnNewButton_1);	
+						btnNewButton_1.setBounds(300, 370, 240, 32);
+						otroLabel.setSize(btnNewButton_1.getSize());
+						otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
+						
+						panel_3.add(tglbtnNewToggleButton);
+						tglbtnNewToggleButton.setBounds(65, 370, 240, 32);
+						JLabel lblNewLabel_1 = new JLabel(imagenIcon);
+						lblNewLabel_1.setSize(panel_3.getSize());
+						panel_3.add(otroLabel);
+						panel_3.add(otroLabel2);
+						panel_3.add(lblNewLabel_1);
+						panel_5.add(panel_3);
+					}
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 }

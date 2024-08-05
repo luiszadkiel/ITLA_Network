@@ -33,6 +33,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Publicacion extends JFrame {
 	Perfil miperfil = Perfil.getInstance();
@@ -71,12 +72,82 @@ private FileInputStream fileInputStream;
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 610, 478);
+		panel.setBackground(new Color(0, 0, 0));
+		panel.setBounds(0, 0, 608, 478);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("FOTO");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		JButton btnNewButton = new JButton("Subir");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+				
+				if (textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Este espacio no puede quedar vacio");
+					
+				}else{
+					Conexion_mysql conexion_mysql = new Conexion_mysql();
+					try {
+						Connection conbdConnection = conexion_mysql.getConnection();
+						PreparedStatement preparedStatement2 = conbdConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
+						preparedStatement2.setString(1, nombre_user);
+						 ResultSet datoSet = preparedStatement2.executeQuery();
+						 int i = -1;
+						 if (datoSet.next()) {
+							i = datoSet.getInt("ID_Usuarios");
+						}
+						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(UsuarioID, IMAGEN, DESCRIPCION) values(?,?,?)");
+						preparedStatement.setInt(1, i);
+						preparedStatement.setBlob(2,fileInputStream, num);
+						preparedStatement.setString(3, textField.getText());
+						
+					    preparedStatement.executeUpdate();
+					    JOptionPane.showMessageDialog(null, "Foto subida exitosamente ");
+
+					
+					} catch (SQLException e2) {
+						JOptionPane.showMessageDialog(null, "Error al conectarse a la base de datos " + e2);
+					}
+					
+					
+					
+				}
+				
+				
+				textField.setText("");
+				
+				
+			}
+		});
+		btnNewButton.setBounds(440, 410, 147, 53);
+		panel.add(btnNewButton);
+		
+		textField = new JTextField();
+		textField.setBounds(132, 49, 322, 34);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Descripcion ");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setBounds(255, 26, 83, 13);
+		panel.add(lblNewLabel_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setBounds(60, 93, 463, 307);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Click para  cargar imagen");
+		lblNewLabel.setBounds(0, 0, 480, 307);
+		panel_1.add(lblNewLabel);
+		lblNewLabel.setBackground(Color.GRAY);
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -108,63 +179,5 @@ private FileInputStream fileInputStream;
 				
 			}
 		});
-		lblNewLabel.setBounds(92, 109, 399, 285);
-		panel.add(lblNewLabel);
-		
-		JButton btnNewButton = new JButton("Subir");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				
-				
-				if (textField.getText().equals("")) {
-					JOptionPane.showMessageDialog(lblNewLabel, "Este espacio no puede quedar vacio");
-					
-				}else{
-					Conexion_mysql conexion_mysql = new Conexion_mysql();
-					try {
-						Connection conbdConnection = conexion_mysql.getConnection();
-						PreparedStatement preparedStatement2 = conbdConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
-						preparedStatement2.setString(1, nombre_user);
-						 ResultSet datoSet = preparedStatement2.executeQuery();
-						 int i = -1;
-						 if (datoSet.next()) {
-							i = datoSet.getInt("ID_Usuarios");
-						}
-						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(CuentaID, IMAGEN, DESCRIPCION) values(?,?,?)");
-						preparedStatement.setInt(1, i);
-						preparedStatement.setBlob(2,fileInputStream, num);
-						preparedStatement.setString(3, textField.getText());
-						
-					    preparedStatement.executeUpdate();
-					    JOptionPane.showMessageDialog(null, "Foto subida exitosamente ");
-
-					
-					} catch (SQLException e2) {
-						JOptionPane.showMessageDialog(null, "Error al conectarse a la base de datos " + e2);
-					}
-					
-					
-					
-				}
-				
-				
-				textField.setText("");
-				
-				
-			}
-		});
-		btnNewButton.setBounds(439, 404, 147, 53);
-		panel.add(btnNewButton);
-		
-		textField = new JTextField();
-		textField.setBounds(123, 45, 322, 34);
-		panel.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("Descripcion ");
-		lblNewLabel_1.setBounds(257, 33, 83, 13);
-		panel.add(lblNewLabel_1);
 	}
 }

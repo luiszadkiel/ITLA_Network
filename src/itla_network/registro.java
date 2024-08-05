@@ -10,6 +10,8 @@ import clases.Registro;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
@@ -30,18 +32,6 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					registro frame = new registro();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -106,6 +96,7 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String passw = new String(passwordField.getPassword());
+				
 				nuevoRegistros.add(new Registro(textField.getText() ,textField_1.getText(), passw,  textField_3.getText()));
 				nuevoRegistros.removeAll(nuevoRegistros);
 				
