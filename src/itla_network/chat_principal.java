@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -22,8 +26,32 @@ public class chat_principal extends JFrame {
     private int id_user_logged_in; // Suponiendo que el ID del usuario logueado es 1
     private Conexion_mysql conexion;
 	Perfil perfil = Perfil.getInstance();
+	private ScheduledExecutorService scheduler;
+/*	   // Crear un hilo para ejecutar la tarea repetidamente
+    Thread taskThread = new Thread(() -> {
+        try {
+            while (true) {
+                // Ejecutar el método deseado
+            	loadMessages();
+                
+                // Esperar 1 minuto (60000 ms)
+                Thread.sleep(60000);
+            }
+        } catch (InterruptedException e) {
+            // Manejo de la excepción si el hilo es interrumpido
+            e.printStackTrace();
+        }
+    
+   
+    });
+    
+    // Iniciar el hilo
+    taskThread.start();
+    
+    */
 	
     public chat_principal(String nombre_user_chat, int id_chat_user) {
+    	startMessageUpdater() ;
         this.conexion = new Conexion_mysql(); // Inicializar conexión con la base de datos
         String nombre = perfil.getNombre_Perfil();
     	
@@ -48,8 +76,10 @@ public class chat_principal extends JFrame {
            } catch (SQLException e1) {
                e1.printStackTrace();
            }
-	
-    	
+       
+  
+ 
+
         this.nombre_user_chat = nombre_user_chat;
         this.id_chat_user = id_chat_user;
 
@@ -267,7 +297,15 @@ public class chat_principal extends JFrame {
             e.printStackTrace();
         }
     }
-    
+    private void startMessageUpdater() {
+        scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            SwingUtilities.invokeLater(() -> {
+                loadMessages();
+            });
+        }, 0, 1, TimeUnit.MINUTES);
+    }
+
     
     public int getIdUserLoggedIn() {
         return id_user_logged_in;
