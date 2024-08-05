@@ -52,6 +52,8 @@ public class chat_principal extends JFrame {
 	
     public chat_principal(String nombre_user_chat, int id_chat_user) {
     	startMessageUpdater() ;
+    	 setLocationRelativeTo(null); // Centra el diálogo en la pantalla
+
         this.conexion = new Conexion_mysql(); // Inicializar conexión con la base de datos
         String nombre = perfil.getNombre_Perfil();
     	
