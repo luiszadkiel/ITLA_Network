@@ -96,7 +96,6 @@ public class login extends JFrame {
 				
 				
 				if (ne.verificador(textField.getText(),pass)) {
-					JOptionPane.showMessageDialog(null, "Bienvenido");
 					ventana_principal ventnaPrincipal = new ventana_principal();// ojo aqui
 					ventnaPrincipal.frame.setVisible(true);
 				
@@ -146,7 +145,7 @@ public class login extends JFrame {
 		panel.add(separator);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (1).png"));
+		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Desktop\\recursos\\logo (1).png"));
 		lblNewLabel_1.setBounds(49, 34, 162, 126);
 		panel.add(lblNewLabel_1);
 	}

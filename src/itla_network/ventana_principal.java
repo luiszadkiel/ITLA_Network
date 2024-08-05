@@ -653,17 +653,17 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(btnNewButton_3_1_1_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (3) (1).png"));
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Desktop\\recursos\\logo (3) (1).png"));
 		lblNewLabel_3.setBounds(10, 76, 64, 47);
 		panel.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("New label");
-		lblNewLabel_3_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (4) (1).png"));
+		lblNewLabel_3_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Desktop\\recursos\\logo (4) (1).png"));
 		lblNewLabel_3_1.setBounds(172, 76, 50, 47);
 		panel.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel_3_2 = new JLabel("New label");
-		lblNewLabel_3_2.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\logo (2) (1).png"));
+		lblNewLabel_3_2.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Desktop\\recursos\\logo (2) (1).png"));
 		lblNewLabel_3_2.setBounds(84, 76, 64, 47);
 		panel.add(lblNewLabel_3_2);
 		internalFrame1.setVisible(true);
