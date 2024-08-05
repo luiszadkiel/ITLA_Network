@@ -9,10 +9,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ComentariosV extends JFrame {
 
@@ -23,8 +26,12 @@ public class ComentariosV extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	public static void main(String[] args) {
+		ComentariosV comentariosV = new ComentariosV();
+		comentariosV.setVisible(true);
+	}
 	
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -37,33 +44,39 @@ public class ComentariosV extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 537, 506);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane(panel);
-		scrollPane.setBounds(0, 0, 523, 923);
-		panel.setPreferredSize(new Dimension(600,6000));
+		scrollPane.setBounds(0, 40, 523, 923);
+		panel.setPreferredSize(new Dimension(400,1600));
 		contentPane.add(scrollPane);
 		scrollPane.setViewportView(panel);
 		panel.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(0, 433, 504, 36);
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+		
+				
+				
+			}
+		});
+		textField.setBounds(1, 1068, 504, 36);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Comentarios");
+		lblNewLabel.setBounds(10, 10, 504, 29);
+		contentPane.add(lblNewLabel);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 10, 504, 29);
-		panel.add(lblNewLabel);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(22, 49, 474, 7);
-		panel.add(separator);
 		
 		
 	}

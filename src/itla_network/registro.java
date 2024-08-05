@@ -96,7 +96,7 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String passw = new String(passwordField.getPassword());
-				JOptionPane.showMessageDialog(null, "entro aqui correctamente");
+				
 				nuevoRegistros.add(new Registro(textField.getText() ,textField_1.getText(), passw,  textField_3.getText()));
 				nuevoRegistros.removeAll(nuevoRegistros);
 				

@@ -39,7 +39,6 @@ public class Registro {
 			inserrtPreparedStatement.setString(3, contraseña);
 			inserrtPreparedStatement.setString(4, telefono);
              inserrtPreparedStatement.executeUpdate();
-            
 	 	    
 	 	    } catch (SQLException e) {
 				// TODO Auto-generated catch block

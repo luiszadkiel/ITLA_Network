@@ -98,7 +98,7 @@ private FileInputStream fileInputStream;
 						 if (datoSet.next()) {
 							i = datoSet.getInt("ID_Usuarios");
 						}
-						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(CuentaID, IMAGEN, DESCRIPCION) values(?,?,?)");
+						PreparedStatement preparedStatement = conbdConnection.prepareStatement("insert into Post(UsuarioID, IMAGEN, DESCRIPCION) values(?,?,?)");
 						preparedStatement.setInt(1, i);
 						preparedStatement.setBlob(2,fileInputStream, num);
 						preparedStatement.setString(3, textField.getText());
