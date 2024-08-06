@@ -124,17 +124,52 @@ public class chat_principal extends JFrame {
         // Crear un JTextArea y añadirlo a un JScrollPane
         JTextArea textArea_1 = new JTextArea();
         JScrollPane scrollPane2 = new JScrollPane(textArea_1);
-        scrollPane2.setBounds(10, 493, 519, 40);
+        scrollPane2.setBounds(10, 493, 643, 40);
         contentPane.add(scrollPane2);
 
-        
-        
+     
         
         //-------------------------------------------------------------------------------------------------
         JButton btnNewButton = new JButton("ENVIAR");
+        
+        btnNewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+        		String mensaje = textArea_1.getText();
+        		
+                String query = "INSERT INTO Mensaje (chat_id, user_id, texto_mensaje) VALUES (?, ?, ?)";
+                
+                
+                try (PreparedStatement stmt = conexion.getConnection().prepareStatement(query)){
+                     
+
+                       // Asignar valores a los parámetros de la consulta
+                	stmt.setInt(1, id_chat_user); // chat_id
+                	stmt.setInt(2, id_user_logged_in); // user_id
+                	stmt.setString(3, mensaje); // texto_mensaje
+
+                       // Ejecutar la consulta
+                       int rowsAffected = stmt.executeUpdate();
+                       // Cargar mensajes al iniciar
+                       loadMessages();
+                       
+                       textArea_1.setText(null);
+                       
+                   } catch (SQLException e1) {
+                       e1.printStackTrace();
+                   }
+     		
+           
+            }
+        });
+        
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
+        		
+        		
+        	        
         		String mensaje = textArea_1.getText();
         		
                 String query = "INSERT INTO Mensaje (chat_id, user_id, texto_mensaje) VALUES (?, ?, ?)";
@@ -173,23 +208,13 @@ public class chat_principal extends JFrame {
         btnNewButton.setBounds(663, 494, 145, 39);
         contentPane.add(btnNewButton);
 
-        JButton btnNewButton_1 = new JButton("New button");
-        btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\3638361 (1).png"));
-        btnNewButton_1.setBounds(601, 494, 56, 39);
-        contentPane.add(btnNewButton_1);
-
-        JButton btnNewButton_2 = new JButton("New button");
-        btnNewButton_2.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\880559 (1).png"));
-        btnNewButton_2.setBounds(539, 494, 52, 39);
-        contentPane.add(btnNewButton_2);
-
         
         
         
         
         
         
-        
+         
         
         
         
