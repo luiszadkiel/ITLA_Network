@@ -37,7 +37,7 @@ public class login extends JDialog {
     private static Clip clip; // Variable global para el Clip
 
     /**
-     * Launch the application.
+     * Launch the application.Adrian
      */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

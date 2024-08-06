@@ -148,7 +148,9 @@ public class ventana_principal {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ComentariosV frame = new ComentariosV();
+			JButton btnNewButton_1 = (JButton) e.getSource();
+		        int postId = Integer.parseInt(btnNewButton_1.getName()); // Obtener el ID del post del nombre del botón
+			ComentariosV frame = new ComentariosV(postId);
 			frame.setVisible(true);		
 		}
 	};
@@ -291,7 +293,7 @@ public class ventana_principal {
 
 		// Crear el JScrollPane con el panel como contenido
 		JScrollPane scrollPane_3 = new JScrollPane(panel_5);
-		panel_5.setLayout(new GridLayout(0,1));
+		panel_5.setLayout(null);
 
 		// Ajustar el tamaño y agregar el JScrollPane al internal frame
 		scrollPane_3.setBounds(0, 0, 758, 513);	
@@ -789,14 +791,15 @@ public class ventana_principal {
 						JLabel otroLabel2 = new JLabel(descripcionString);
 						JButton btnNewButton_1 = new JButton("comentarios");
 						btnNewButton_1.addActionListener(botonescomentariosActionListener);
-						
+						btnNewButton_1.setName(String.valueOf(postId)); // Asociar el ID del post al botón
+
 						JToggleButton tglbtnNewToggleButton = new JToggleButton("likes 0");
 						tglbtnNewToggleButton.setName(String.valueOf(postId)); // Asociar el ID del post al botón
 						tglbtnNewToggleButton.addActionListener(likesActionListener);
 						
-						panel_3.setBounds(55, 0, 605, 426);
+						panel_3.setBounds(55, count, 605, 426);
 						panel_3.setLayout(null);
-						
+						count++;
 						ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 						Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
 						panel_3.add(btnNewButton_1);	
