@@ -145,6 +145,7 @@ public class login extends JDialog {
         btnNewButton_1.setFont(new Font("Wide Latin", Font.PLAIN, 10));
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                stopMusic(); // Detener la música al hacer clic en el botón
                 registro n = new registro();
                 n.setVisible(true);
             }

@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,12 +21,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import basedatos.Conexion_mysql;
+import clases.seguidos;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -158,6 +161,18 @@ public class perfil extends JFrame {
         mntmNewMenuItem_3.setForeground(Color.WHITE);
         mntmNewMenuItem_3.setBackground(Color.BLACK);
         mnNewMenu_1.add(mntmNewMenuItem_3);
+        mntmNewMenuItem_3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              String nombreuser = lblNewLabel_5.getText();
+                seguidos seguidos = new seguidos();
+                List<String> listaSeguidores = seguidos.obtenerSeguidores();
+                
+                mostartuseguidores dialog = new mostartuseguidores(listaSeguidores);
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setVisible(true);
+            }
+        });
 
         contentPane = new JPanel();
         contentPane.setBackground(Color.BLACK);

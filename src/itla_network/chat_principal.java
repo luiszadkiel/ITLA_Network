@@ -23,7 +23,7 @@ public class chat_principal extends JFrame {
     private JPanel panel;
     private String nombre_user_chat;
     private int id_chat_user;
-    private int id_user_logged_in; // Suponiendo que el ID del usuario logueado es 1
+   private int id_user_logged_in; // Suponiendo que el ID del usuario logueado es 1
     private Conexion_mysql conexion;
 	Perfil perfil = Perfil.getInstance();
 	private ScheduledExecutorService scheduler;

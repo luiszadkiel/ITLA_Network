@@ -2,7 +2,7 @@ package clases;
 
 import java.awt.Window.Type;
 
-public class Seguidores extends Perfil {
+public class Seguidores2 extends Perfil {
 
 	 private String TipoNotificacion = "Nuevo Seguidor";
 
