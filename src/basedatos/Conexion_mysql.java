@@ -31,20 +31,6 @@ public class Conexion_mysql {
         Conexion_mysql conexion = new Conexion_mysql();
         Connection conn = conexion.getConnection();
 
-        // Use the connection for database operations here
-        // For example, you can create a Statement or PreparedStatement and execute queries
-
-        // Example of how you might use the connection (this code is commented out as it requires actual database operations):
-        /*
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM some_table")) {
-            while (rs.next()) {
-                System.out.println("Column 1: " + rs.getString(1));
-            }
-        } catch (SQLException e) {
-            System.out.println("Error durante la consulta: " + e.getMessage());
-        }
-        */
 
         // Close the connection when done
         if (conn != null) {

@@ -16,8 +16,8 @@ import basedatos.Conexion_mysql;
 import clases.Perfil;
 
 public class chat_principal extends JFrame {
-    private static chat_principal instance = null;
-
+   // private static chat_principal instance = null;
+	 int idusuariodechar;
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JPanel panel;
@@ -52,8 +52,6 @@ public class chat_principal extends JFrame {
 	
     public chat_principal(String nombre_user_chat, int id_chat_user) {
     	startMessageUpdater() ;
-    	 setLocationRelativeTo(null); // Centra el diálogo en la pantalla
-
         this.conexion = new Conexion_mysql(); // Inicializar conexión con la base de datos
         String nombre = perfil.getNombre_Perfil();
     	
@@ -72,6 +70,28 @@ public class chat_principal extends JFrame {
             if (rs.next()) {
                 int userID = rs.getInt("ID_Usuarios");
                 setIdUserLoggedIn(userID);
+  
+            }
+
+           } catch (SQLException e1) {
+               e1.printStackTrace();
+           }
+       
+//este query es para obtnert el id del user cpon el que estoy chateando
+        String query2 = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
+
+        try (PreparedStatement stmt = conexion.getConnection().prepareStatement(query2)){
+             
+        	// Asignar valor al parámetro de la consulta
+        	stmt.setString(1, nombre_user_chat);
+
+            // Ejecutar la consulta
+            ResultSet rs = stmt.executeQuery();
+
+            // Procesar el resultado
+            if (rs.next()) {
+                  idusuariodechar = rs.getInt("ID_Usuarios");
+                
   
             }
 
@@ -163,6 +183,17 @@ public class chat_principal extends JFrame {
         btnNewButton_2.setBounds(539, 494, 52, 39);
         contentPane.add(btnNewButton_2);
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         JButton btnNewButton_3 = new JButton("New button");
         btnNewButton_3.setFont(new Font("Sitka Small", Font.PLAIN, 16));
         btnNewButton_3.setBackground(Color.BLACK);
@@ -170,12 +201,39 @@ public class chat_principal extends JFrame {
         btnNewButton_3.setText(nombre_user_chat);
         btnNewButton_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                perfil perfil = new perfil();
-                perfil.setVisible(true);
+            	
+            		 perfil perfil = new perfil(idusuariodechar);
+            		  perfil.setVisible(true);
+            
+         
+               
+              
             }
         });
         btnNewButton_3.setBounds(187, 23, 613, 40);
         contentPane.add(btnNewButton_3);
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         // Crear un panel para los mensajes
         panel = new JPanel();
@@ -308,6 +366,15 @@ public class chat_principal extends JFrame {
         }, 0, 1, TimeUnit.MINUTES);
     }
 
+    public String getnombre_user_chat() {
+        return nombre_user_chat;
+    }
+
+    // Setter
+    public void setnombre_user_chat(String nombre_user_chat) {
+        this.nombre_user_chat = nombre_user_chat;
+    }
+    
     
     public int getIdUserLoggedIn() {
         return id_user_logged_in;

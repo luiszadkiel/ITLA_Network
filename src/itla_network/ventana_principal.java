@@ -29,8 +29,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -64,10 +66,17 @@ import javax.swing.border.CompoundBorder;
 import java.awt.GridLayout;
 
 public class ventana_principal {
-
+	
+	 int id_del_chat;
+	  int a = 0;
+	private int iduser_log;
+	Set<Integer> processedChatIds = new HashSet<>();
+	HashSet<Integer> processedUserIds = new HashSet<>();
+	private int i1duser_log;
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
+    int chatId2 =0;
 	JPanel panel_5 = new JPanel();
 	int nose = -1;
 	 int count = 50;
@@ -170,7 +179,35 @@ public class ventana_principal {
 	 */
 	private void initialize() {
 		
+		Conexion_mysql conn = new Conexion_mysql();
 		
+		
+		
+	    Perfil perfil = Perfil.getInstance();
+        String nombre = perfil.getNombre_Perfil();
+    	
+        
+        String query = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
+
+        try (PreparedStatement stmt = conn.getConnection().prepareStatement(query)){
+             
+        	// Asignar valor al parámetro de la consulta
+        	stmt.setString(1, nombre);
+
+            // Ejecutar la consulta
+            ResultSet rs = stmt.executeQuery();
+
+            // Obtener id de usuario
+            if (rs.next()) {
+                int userID = rs.getInt("ID_Usuarios");
+                setIduser_log(userID);
+                setIdUserLoggedIn(userID);
+  
+            }
+
+           } catch (SQLException e1) {
+               e1.printStackTrace();
+           }
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1369, 719);
@@ -370,59 +407,29 @@ public class ventana_principal {
 		
 		JButton btnChat = new JButton("Chat");
 		btnChat.addActionListener(new ActionListener() {
-			private int iduser_log;
+		
 
 			public void actionPerformed(ActionEvent e) {
 				internalFrame_3.setVisible(true);
 				//-------------------------------------------------------------------
 				// CARGAR LOS USUARIOS EN EL CHAT
 				//-------------------------------------------------------------------
-				Conexion_mysql conn = new Conexion_mysql();
-				
-				
-				
-				    Perfil perfil = Perfil.getInstance();
-			        String nombre = perfil.getNombre_Perfil();
-			    	
-			        
-			        String query = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
-
-			        try (PreparedStatement stmt = conn.getConnection().prepareStatement(query)){
-			             
-			        	// Asignar valor al parámetro de la consulta
-			        	stmt.setString(1, nombre);
-
-			            // Ejecutar la consulta
-			            ResultSet rs = stmt.executeQuery();
-
-			            // Procesar el resultado
-			            if (rs.next()) {
-			                int userID = rs.getInt("ID_Usuarios");
-			                setIdUserLoggedIn(userID);
-			  
-			            }
-
-			           } catch (SQLException e1) {
-			               e1.printStackTrace();
-			           }
 				
 				
 				
 				
-				
-				
-				String sql =   "SELECT m.chat_id, m.user_id, u.Nombre_USUARIO, m.texto_mensaje AS ultimo_mensaje, m.hora_envio " +
-				        "FROM Mensaje m " +
-				        "INNER JOIN ( " +
-				        "    SELECT chat_id, MAX(hora_envio) AS ultima_hora_envio " +
-				        "    FROM Mensaje " +
-				        "    WHERE user_id = ? " +
-				        "    GROUP BY chat_id " +
-				        ") ult_msj " +
-				        "ON m.chat_id = ult_msj.chat_id " +
-				        "AND m.hora_envio = ult_msj.ultima_hora_envio " +
-				        "INNER JOIN usuarios u ON m.user_id = u.ID_Usuarios " +  // Unir con la tabla Usuario para obtener el nombre
-				        "ORDER BY m.hora_envio DESC;";
+			    	String sql =   "SELECT m.chat_id, m.user_id, u.Nombre_USUARIO, m.texto_mensaje AS ultimo_mensaje, m.hora_envio " +
+					        "FROM Mensaje m " +
+					        "INNER JOIN ( " +
+					        "    SELECT chat_id, MAX(hora_envio) AS ultima_hora_envio " +
+					        "    FROM Mensaje " +
+					        "    WHERE user_id = ? " +
+					        "    GROUP BY chat_id " +
+					        ") ult_msj " +
+					        "ON m.chat_id = ult_msj.chat_id " +
+					        "AND m.hora_envio = ult_msj.ultima_hora_envio " +
+					        "INNER JOIN usuarios u ON m.user_id = u.ID_Usuarios " +  // Unir con la tabla Usuario para obtener el nombre
+					        "ORDER BY m.hora_envio DESC;";
 
 				try (Connection coneConnection = conn.getConnection();
 				     PreparedStatement pstmt = coneConnection.prepareStatement(sql)) {
@@ -433,12 +440,33 @@ public class ventana_principal {
 				    
 				    try (ResultSet rs = pstmt.executeQuery()) {
 				        int yOffset = 11; // Offset inicial para la posición Y
-
+				        ArrayList<Integer> id = new ArrayList<>();
+				    
 				        while (rs.next()) {
+				        	
+				        	
+				        	int userId = rs.getInt("user_id");
+				        	
 				            int chatId = rs.getInt("chat_id");
+				            
+				            // Verificar si el chatId ya ha sido procesado
+				            if (processedChatIds.contains(chatId)) {
+				                continue; // Saltar este chatId si ya se ha procesado
+				            }
+				            if (processedUserIds.contains(userId)) {
+				                continue; // Saltar este userId si ya se ha procesado
+				            }
+				            
+				            // Marcar este userId como procesado
+				            processedUserIds.add(userId);
+
+				            
+				            // Marcar este chatId como procesado 
+				            processedChatIds.add(chatId);
+
+				           // int chatId = rs.getInt("chat_id");
 				            int Id_user_chat = rs.getInt("user_id");
 				            String ultimoMensaje = rs.getString("ultimo_mensaje");
-
 				            // Crear los componentes
 				            JLabel lblNewLabel_2 = new JLabel();
 				            JButton btnNombrePerfil = new JButton();
@@ -448,15 +476,66 @@ public class ventana_principal {
 				            btnNombrePerfil.addActionListener(new ActionListener() {
 				                @Override
 				                public void actionPerformed(ActionEvent e) {
-				                    chat_principal chat_principal = new chat_principal(nombreUsuario1, chatId);
+				                    // Consulta SQL para obtener los IDs de los chats
+				                    String sql = "SELECT cu.chat_id " +
+				                                 "FROM Chat_usuarios cu " +
+				                                 "JOIN Usuarios u ON cu.user_id = u.ID_Usuarios " +
+				                                 "WHERE u.Nombre_USUARIO = ?";
+
+				                    // Establece la conexión y ejecuta la consulta
+				                    try (Connection coneConnection = conn.getConnection();
+				                         PreparedStatement pstmt = coneConnection.prepareStatement(sql)) {
+
+				                        // Actualiza nombreUsuario1 aquí para asegurarte de que se utiliza el valor correcto
+				                        String query2 = "SELECT u.Nombre_USUARIO " +
+				                                        "FROM Usuarios u " +
+				                                        "JOIN Chat_usuarios cu ON u.ID_Usuarios = cu.user_id " +
+				                                        "WHERE cu.chat_id = ? " +
+				                                        "AND u.Nombre_USUARIO != ?";
+
+				                        try (PreparedStatement stmt = conn.getConnection().prepareStatement(query2)) {
+				                            stmt.setInt(1, chatId);
+				                            stmt.setString(2, nombre);
+				                            
+				                            try (ResultSet resultSet = stmt.executeQuery()) {
+				                                if (resultSet.next()) {
+				                                    nombreUsuario1 = resultSet.getString("Nombre_USUARIO");
+				                                    
+				                                }
+				                            }
+				                        } catch (SQLException e1) {
+				                            e1.printStackTrace();
+				                        }
+
+				                        // Establece el parámetro de la consulta
+				                        pstmt.setString(1, nombreUsuario1);
+
+				                        // Ejecuta la consulta
+				                        try (ResultSet rs = pstmt.executeQuery()) {
+				                            // Procesa los resultados
+				                            while (rs.next()) {
+				                                chatId2 = rs.getInt("chat_id");
+				                            }
+				                        }
+
+				                    } catch (SQLException e1) {
+				                        e1.printStackTrace();
+				                    }
+
+				                    // Asegúrate de pasar nombreUsuario1 actualizado
+				                  
+				                    int i = obtenerChatIdPorNombreUsuario(nombreUsuario1);
+				                    chat_principal chat_principal = new chat_principal(nombreUsuario1, chatId2);
+				                    chat_principal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				                    chat_principal.setVisible(true);
+
 				                    Chat char_priv = new Chat();
 				                    char_priv.setNombre_Chat(nombreUsuario1);
 				                    char_priv.setid_chat(chatId);
 				                    char_priv.setId_user_chat(Id_user_chat);
 				                }
 				            });
-				            
+
 				            //--------------------------------------
 
 
@@ -533,6 +612,8 @@ public class ventana_principal {
 
 				            // Incrementar el offset para la siguiente iteración
 				            yOffset += 96; // Ajustar según sea necesario para el espaciado entre elementos
+				            
+				            
 				        }
 				    } catch (SQLException e1) {
 				        e1.printStackTrace();
@@ -546,10 +627,7 @@ public class ventana_principal {
 				
 }
 
-			private void setIdUserLoggedIn(int userID) {
-				this.iduser_log = userID;
-				
-			}
+			
 				
 			
 		});
@@ -602,7 +680,8 @@ public class ventana_principal {
 		JButton btnNewButton_3_1_1 = new JButton("Perfil");
 		btnNewButton_3_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				perfil perfil = new perfil();
+				
+				perfil perfil = new perfil(getIduser_log());
 				perfil.setVisible(true);
 			}
 		});
@@ -640,6 +719,8 @@ public class ventana_principal {
 		btnNewButton_3_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Publicacion nwePublicacion= new Publicacion();
+				nwePublicacion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 				nwePublicacion.setVisible(true);
 				
 			}
@@ -738,4 +819,52 @@ public class ventana_principal {
 			e1.printStackTrace();
 		}
 	}
+	
+	private int obtenerChatIdPorNombreUsuario(String nombreUsuario) {
+	    String sql = "SELECT cu.chat_id " +
+	                 "FROM Chat_usuarios cu " +
+	                 "JOIN Usuarios u ON cu.user_id = u.ID_Usuarios " +
+	                 "WHERE u.Nombre_USUARIO = ?";
+
+	    try (Connection connection = new Conexion_mysql().getConnection();
+	         PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+	        pstmt.setString(1, nombreUsuario);
+
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getInt("chat_id");
+	            } else {
+	                // No se encontró el chat_id para el usuario dado
+	                return -1; // O algún otro valor que indique que no se encontró el chat_id
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return -1; // Retorna un valor indicando que ocurrió un error
+	    }
+	}
+
+	// Getter para iduser_log
+	public int getIduser_log() {
+	    return i1duser_log;
+	}
+	private void setIdUserLoggedIn(int userID) {
+		this.iduser_log = userID;
+		
+	}
+	// Setter para iduser_log
+	public void setIduser_log(int iduser_log) {
+	    this.i1duser_log = iduser_log;
+	}
+	// Getter
+	public int getIdDelChat() {
+	    return id_del_chat;
+	}
+
+	// Setter
+	public void setIdDelChat(int id_del_chat) {
+	    this.id_del_chat = id_del_chat;
+	}
+
 }
