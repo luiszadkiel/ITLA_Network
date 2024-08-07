@@ -67,23 +67,25 @@ import java.awt.GridLayout;
 
 public class ventana_principal {
 	
+	
+	
 	 int id_del_chat;
 	  int a = 0;
 	private int iduser_log;
 	Set<Integer> processedChatIds = new HashSet<>();
 	HashSet<Integer> processedUserIds = new HashSet<>();
 	private int i1duser_log;
-	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
     int chatId2 =0;
 	JPanel panel_5 = new JPanel();
 	int nose = -1;
-	 int count = 50;
+   int count = 50;
 		Perfil miperfil = Perfil.getInstance();
 		int id = -1;
 	   String nombre_user =miperfil.getNombre_Perfil();
 	   int likescount = 0;
+
 	   ActionListener likesActionListener = new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -243,7 +245,7 @@ public class ventana_principal {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 0, 64));
-		panel_2.setBounds(232, 133, 763, 540);
+		panel_2.setBounds(232, 0, 763, 680);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -260,7 +262,7 @@ public class ventana_principal {
 
 		
 
-		internalFrame_11.setBounds(0, 55, 763, 646);
+		internalFrame_11.setBounds(0, 10, 763, 643);
 		panel_2.add(internalFrame_11);
 		
 		
@@ -281,7 +283,7 @@ public class ventana_principal {
 		internalFrame_11.getContentPane().setLayout(null);
 		
 
-		panel_5.setBounds(1, 1, 736, 655);
+		panel_5.setBounds(1, 1, 736, 680);
 		internalFrame_11.getContentPane().add(panel_5);
 
 		panel_5.setBackground(Color.BLACK);
@@ -296,45 +298,12 @@ public class ventana_principal {
 		panel_5.setLayout(null);
 
 		// Ajustar el tamaño y agregar el JScrollPane al internal frame
-		scrollPane_3.setBounds(0, 0, 758, 513);	
+		scrollPane_3.setBounds(0, 0, 758, 680);	
 		internalFrame_11.getContentPane().add(scrollPane_3, BorderLayout.CENTER);
 
 		// Actualizar el internal frame
 		internalFrame_11.revalidate();
 		internalFrame_11.repaint();
-	
-		
-
-		
-		
-		internalFrame_2.getContentPane().setBackground(new Color(240, 240, 240));
-		internalFrame_2.setClosable(true);
-		internalFrame_2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		internalFrame_2.setBounds(232, 10, 763, 113);
-		panel.add(internalFrame_2);
-		internalFrame_2.getContentPane().setLayout(null);
-		
-
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(59, 31, 185, 28);
-		internalFrame_2.getContentPane().add(textPane);
-		
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(309, 71, 2, 2);
-		internalFrame_2.getContentPane().add(scrollPane_1);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-
-		scrollPane_2.setBounds(0, 0, 772, 83);
-
-		scrollPane_2.setBounds(0, 69, 782, 12);
-
-		internalFrame_2.getContentPane().add(scrollPane_2);
-
-		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setBounds(316, 31, 195, 28);
-		internalFrame_2.getContentPane().add(textPane_1);
 		
 		
 		//----------------------------------------------------------------------------------------
@@ -360,10 +329,6 @@ public class ventana_principal {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 344, 82, 0);
 		panel.add(separator_1);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(238, 113, 743, 10);
-		panel.add(scrollPane);
 		
 		JLabel lblNewLabel = new JLabel("ITLA_NETWORK");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -395,8 +360,7 @@ public class ventana_principal {
 		JButton btnEstados = new JButton("Estados");
 		btnEstados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			internalFrame_2.setVisible(true);
-				
+		
 				
 			}
 		});
@@ -747,7 +711,6 @@ public class ventana_principal {
 		panel.add(lblNewLabel_3_2);
 		internalFrame1.setVisible(true);
 		internalFrame_3.setVisible(true);
-		internalFrame_2.setVisible(true);
 		internalFrame_11.setVisible(true);
 	}
 	
@@ -799,17 +762,22 @@ public class ventana_principal {
 						
 						panel_3.setBounds(55, count, 605, 426);
 						panel_3.setLayout(null);
-						count++;
+						count=500; count++;
 						ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 						Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
 						panel_3.add(btnNewButton_1);	
-						btnNewButton_1.setBounds(300, 370, 240, 32);
-						otroLabel.setSize(btnNewButton_1.getSize());
-						otroLabel2.setBounds(0, 10, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
+						btnNewButton_1.setBounds(300, 385, 240, 32);
+						otroLabel.setBounds(65, 40, 400, 20);
+						otroLabel2.setBounds(65, 355, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
 						
 						panel_3.add(tglbtnNewToggleButton);
-						tglbtnNewToggleButton.setBounds(65, 370, 240, 32);
+						tglbtnNewToggleButton.setBounds(65, 385, 240, 32);
 						JLabel lblNewLabel_1 = new JLabel(imagenIcon);
+						otroLabel.setForeground(new Color(255, 255, 255));
+						 otroLabel.setFont(new Font("Wide Latin", Font.PLAIN, 20));
+						 otroLabel2.setForeground(new Color(255, 255, 255));
+						 otroLabel2.setFont(new Font("Wide Latin", Font.PLAIN, 12));
+						 panel_3.setBackground(Color.black);
 						lblNewLabel_1.setSize(panel_3.getSize());
 						panel_3.add(otroLabel);
 						panel_3.add(otroLabel2);
