@@ -929,92 +929,84 @@ int a;
         Conexion_mysql conexion = new Conexion_mysql();
         try {
             Connection coneshowConexion = conexion.getConnection();
-            PreparedStatement bin = coneshowConexion.prepareStatement("SELECT * FROM post WHERE UsuarioID = ?");                                           // OJO AQUI SOLO ES DE PRUEBA EL 7 SE DEBE CAMBIAR POR UNA VARIABLE
-            bin.setInt(1, id3); //   QUITA EL 7 Y PON EL ID                                                                                                         AQUI VA EL ID QUE SE EXTRAE DESDE EL BONTON PEFIL EN EL INCIO EN VEZ DE  7 VA ESTA
+            PreparedStatement bin = coneshowConexion.prepareStatement("SELECT * FROM post WHERE UsuarioID = ?");
+            bin.setInt(1, id3); // Aquí se establece el ID del usuario
             ResultSet blb = bin.executeQuery();
 
-         
-
             while (blb.next()) {
-            	  posicionador++;
+                posicionador++;
                 Blob leerbinario = blb.getBlob("IMAGEN");
                 int id = blb.getInt("ID_post");
 
-                byte[] pasarIMgBytes = leerbinario.getBytes(1, (int) leerbinario.length());
-                BufferedImage imagenBufferedImage = null;
+                // Verifica si leerbinario es nulo
+                if (leerbinario != null) {
+                    byte[] pasarIMgBytes = leerbinario.getBytes(1, (int) leerbinario.length());
+                    BufferedImage imagenBufferedImage = null;
 
-                try {
-                    imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pasarIMgBytes));
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
+                    try {
+                        imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pasarIMgBytes));
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
 
-                if (imagenBufferedImage != null) {
-                    ImageIcon imageIcon = new ImageIcon(imagenBufferedImage);
-                   Image scaledImage = imageIcon.getImage().getScaledInstance(154, 152, Image.SCALE_SMOOTH);
-                   ImageIcon scaledIcon = new ImageIcon(scaledImage);
-                 
-                   if (posicionador==1) {
-                	   lblNewLabel_4_4_3.setIcon(scaledIcon);
-                	   lblNewLabel_4_4_3.setName(String.valueOf(id)); // Asociar el ID del post al botón
+                    if (imagenBufferedImage != null) {
+                        ImageIcon imageIcon = new ImageIcon(imagenBufferedImage);
+                        Image scaledImage = imageIcon.getImage().getScaledInstance(154, 152, Image.SCALE_SMOOTH);
+                        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-                	   
-				}
-                   
-                   if (posicionador==2) {
-                	   lblNewLabel_4_4_2.setIcon(scaledIcon);
-                	   lblNewLabel_4_4_2.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==3) {
-                	   lblNewLabel_4_4_1.setIcon(scaledIcon);
-                	   lblNewLabel_4_4_1.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==4) {
-                	   lblNewLabel_4_5.setIcon(scaledIcon);
-                	   lblNewLabel_4_5.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==5) {
-                	   lblNewLabel_4_4.setIcon(scaledIcon);
-                	   lblNewLabel_4_4.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==6) {
-                	   lblNewLabel_4_3.setIcon(scaledIcon);
-                	   lblNewLabel_4_3.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==7) {
-                	   lblNewLabel_4_2.setIcon(scaledIcon);
-                	   lblNewLabel_4_2.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==8) {
-                	   lblNewLabel_4_1.setIcon(scaledIcon);
-                	   lblNewLabel_4_1.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-
-                   if (posicionador==9) {
-                	   lblNewLabel_4.setIcon(scaledIcon);
-                	   lblNewLabel_4.setName(String.valueOf(id)); // Asociar el ID del post al botón
-
-				}
-                 
-                   
-                   
+                        // Asigna la imagen al label correspondiente según la posición
+                        switch (posicionador) {
+                            case 1:
+                                lblNewLabel_4_4_3.setIcon(scaledIcon);
+                                lblNewLabel_4_4_3.setName(String.valueOf(id));
+                                break;
+                            case 2:
+                                lblNewLabel_4_4_2.setIcon(scaledIcon);
+                                lblNewLabel_4_4_2.setName(String.valueOf(id));
+                                break;
+                            case 3:
+                                lblNewLabel_4_4_1.setIcon(scaledIcon);
+                                lblNewLabel_4_4_1.setName(String.valueOf(id));
+                                break;
+                            case 4:
+                                lblNewLabel_4_5.setIcon(scaledIcon);
+                                lblNewLabel_4_5.setName(String.valueOf(id));
+                                break;
+                            case 5:
+                                lblNewLabel_4_4.setIcon(scaledIcon);
+                                lblNewLabel_4_4.setName(String.valueOf(id));
+                                break;
+                            case 6:
+                                lblNewLabel_4_3.setIcon(scaledIcon);
+                                lblNewLabel_4_3.setName(String.valueOf(id));
+                                break;
+                            case 7:
+                                lblNewLabel_4_2.setIcon(scaledIcon);
+                                lblNewLabel_4_2.setName(String.valueOf(id));
+                                break;
+                            case 8:
+                                lblNewLabel_4_1.setIcon(scaledIcon);
+                                lblNewLabel_4_1.setName(String.valueOf(id));
+                                break;
+                            case 9:
+                                lblNewLabel_4.setIcon(scaledIcon);
+                                lblNewLabel_4.setName(String.valueOf(id));
+                                break;
+                        }
+                    }
+                } else {
+                    // Si leerbinario es nulo, simplemente abre el perfil sin imagen
+                    // Aquí puedes agregar lógica para mostrar un ícono por defecto o dejar el label vacío
+                    // Por ejemplo:
+                    if (posicionador == 1) {
+                        lblNewLabel_4_4_3.setIcon(null); // O asignar un ícono por defecto
+                    }
+                    // Repite para otros labels según sea necesario
                 }
             }
         } catch (SQLException e2) {
             e2.printStackTrace();
         }
     }
+
 }
