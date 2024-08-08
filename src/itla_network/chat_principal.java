@@ -27,37 +27,21 @@ public class chat_principal extends JFrame {
     private Conexion_mysql conexion;
 	Perfil perfil = Perfil.getInstance();
 	private ScheduledExecutorService scheduler;
-/*	   // Crear un hilo para ejecutar la tarea repetidamente
-    Thread taskThread = new Thread(() -> {
-        try {
-            while (true) {
-                // Ejecutar el método deseado
-            	loadMessages();
-                
-                // Esperar 1 minuto (60000 ms)
-                Thread.sleep(60000);
-            }
-        } catch (InterruptedException e) {
-            // Manejo de la excepción si el hilo es interrumpido
-            e.printStackTrace();
-        }
-    
-   
-    });
-    
-    // Iniciar el hilo
-    taskThread.start();
-    
-    */
+	
+	
+	
+	
 	
     public chat_principal(String nombre_user_chat, int id_chat_user) {
-    	startMessageUpdater() ;
+    	startMessageUpdater() ; // para configurar la actualización periódica de los mensajes.
         this.conexion = new Conexion_mysql(); // Inicializar conexión con la base de datos
-        String nombre = perfil.getNombre_Perfil();
-    	
+        String nombre = perfil.getNombre_Perfil(); 
         
+        
+        // obtener ID del usuario logeado
         String query = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
-
+        
+        
         try (PreparedStatement stmt = conexion.getConnection().prepareStatement(query)){
              
         	// Asignar valor al parámetro de la consulta
@@ -76,6 +60,9 @@ public class chat_principal extends JFrame {
            } catch (SQLException e1) {
                e1.printStackTrace();
            }
+        
+        
+        
        
 //este query es para obtnert el id del user cpon el que estoy chateando
         String query2 = "SELECT ID_Usuarios FROM Usuarios WHERE Nombre_USUARIO = ?";
@@ -102,9 +89,12 @@ public class chat_principal extends JFrame {
   
  
 
-        this.nombre_user_chat = nombre_user_chat;
-        this.id_chat_user = id_chat_user;
+        this.nombre_user_chat = nombre_user_chat;  // nombre del chat
+        this.id_chat_user = id_chat_user;  // ID del usuario con el que estoy chateadndo
+        // valores pasado por el construcotr
 
+        
+        
         setType(Type.UTILITY);
         setTitle("chat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,8 +120,8 @@ public class chat_principal extends JFrame {
         
         
         
-        //-------------------------------------------------------------------------------------------------
-        JButton btnNewButton = new JButton("ENVIAR");
+        //---------------------------------------------------------------------------------------------------------------------------------
+        JButton btnNewButton = new JButton("ENVIAR"); // evento del boton enviar
         btnNewButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		
@@ -162,7 +152,7 @@ public class chat_principal extends JFrame {
         	}
         });
         
-        
+ //-----------------------------------------------------------------------------------------------------------------------------------------       
         
         
         
@@ -196,26 +186,6 @@ public class chat_principal extends JFrame {
         btnNewButton_3.setBounds(187, 23, 613, 40);
         contentPane.add(btnNewButton_3);
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
 
         // Crear un panel para los mensajes
