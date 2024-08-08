@@ -123,7 +123,7 @@ public class mostrarelpost extends JFrame {
        
         panel_1.setBounds(489, 206, 368, 1000);
         
-        String comentarioString = imgs(id);  
+      
         
         ///oojo aqui
         
@@ -175,7 +175,7 @@ public class mostrarelpost extends JFrame {
     	try {
     	    Connection coneshowConexion = bd.getConnection();
     	    PreparedStatement bin = coneshowConexion.prepareStatement("SELECT IMAGEN, DESCRIPCION FROM post where ID_post = ? ");
-    	    bin.setInt(1, 7); // Asumiendo que el ID es 7. Ajusta según sea necesario.
+    	    bin.setInt(1, id); // Asumiendo que el ID es 7. Ajusta según sea necesario.
     	    ResultSet blb = bin.executeQuery();
     	   
     	  PreparedStatement bin1 = coneshowConexion.prepareStatement("SELECT " +
@@ -187,7 +187,7 @@ public class mostrarelpost extends JFrame {
                   "    Usuarios u ON c.PostID = u.ID_Usuarios " +
                   "WHERE " +
                   "    c.PostID = ?;");
-    	    bin1.setInt(1, 7); // Asumiendo que el ID es 7. Ajusta según sea necesario.
+    	    bin1.setInt(1, id); // Asumiendo que el ID es 7. Ajusta según sea necesario.
     	    ResultSet blb1 = bin1.executeQuery();
     	  
     	    
