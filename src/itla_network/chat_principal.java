@@ -158,7 +158,7 @@ public class chat_principal extends JFrame {
                    } catch (SQLException e1) {
                        e1.printStackTrace();
                    }
-     		
+        	
         	}
         });
         
@@ -170,26 +170,9 @@ public class chat_principal extends JFrame {
         
         btnNewButton.setFont(new Font("Sitka Small", Font.PLAIN, 15));
         btnNewButton.setForeground(new Color(0, 0, 0));
-        btnNewButton.setBounds(663, 494, 145, 39);
+        btnNewButton.setBounds(632, 494, 176, 39);
         contentPane.add(btnNewButton);
 
-        JButton btnNewButton_1 = new JButton("New button");
-        btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\3638361 (1).png"));
-        btnNewButton_1.setBounds(601, 494, 56, 39);
-        contentPane.add(btnNewButton_1);
-
-        JButton btnNewButton_2 = new JButton("New button");
-        btnNewButton_2.setIcon(new ImageIcon("C:\\Users\\zadkiel\\Downloads\\880559 (1).png"));
-        btnNewButton_2.setBounds(539, 494, 52, 39);
-        contentPane.add(btnNewButton_2);
-
-        
-        
-        
-        
-        
-        
-        
         
         
         

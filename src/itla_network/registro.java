@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import basedatos.Conexion_mysql;
 import clases.Registro;
 
 import javax.swing.JTextField;
@@ -17,8 +18,12 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 public class registro extends JFrame {
 ArrayList<Registro>nuevoRegistros = new ArrayList<>();
@@ -28,6 +33,7 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 	private JTextField textField_1;
 	private JTextField textField_3;
 	private JPasswordField passwordField;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -39,7 +45,7 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 	public registro() {
 		setTitle("Registro");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 676, 533);
+		setBounds(100, 100, 903, 533);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,7 +55,7 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 0, 64));
-		panel.setBounds(89, 10, 483, 476);
+		panel.setBounds(90, 10, 483, 476);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -92,20 +98,6 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 		lblNewLabel_1_2.setBounds(237, 304, 61, 13);
 		panel.add(lblNewLabel_1_2);
 		
-		JButton btnNewButton = new JButton("Registrar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String passw = new String(passwordField.getPassword());
-				
-				nuevoRegistros.add(new Registro(textField.getText() ,textField_1.getText(), passw,  textField_3.getText()));
-				nuevoRegistros.removeAll(nuevoRegistros);
-				
-			}
-		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton.setBounds(322, 408, 140, 43);
-		panel.add(btnNewButton);
-		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(110, 182, 300, 36);
 		panel.add(passwordField);
@@ -115,5 +107,61 @@ ArrayList<Registro>nuevoRegistros = new ArrayList<>();
 		lblNewLabel_2.setForeground(new Color(255, 255, 255));
 		lblNewLabel_2.setBounds(214, 22, 127, 26);
 		panel.add(lblNewLabel_2);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setBounds(582, 10, 295, 260);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_3 = new JLabel("Nombre de perfil");
+		lblNewLabel_3.setForeground(Color.BLACK);
+		lblNewLabel_3.setBounds(10, 11, 275, 19);
+		panel_1.add(lblNewLabel_3);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(10, 41, 275, 19);
+		panel_1.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Biografia");
+		lblNewLabel_4.setForeground(Color.BLACK);
+		lblNewLabel_4.setBounds(10, 89, 275, 19);
+		panel_1.add(lblNewLabel_4);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(10, 119, 275, 100);
+		panel_1.add(textArea);
+		
+		JButton btnNewButton = new JButton("Registrar");
+		btnNewButton.setForeground(Color.BLACK);
+		btnNewButton.setBounds(737, 443, 140, 43);
+		contentPane.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String passw = new String(passwordField.getPassword());
+				
+				nuevoRegistros.add(new Registro(textField.getText() ,textField_1.getText(), passw,  textField_3.getText()));
+				nuevoRegistros.removeAll(nuevoRegistros);
+		        Conexion_mysql conn1561 = new Conexion_mysql();
+
+				  // Consulta SQL para insertar datos
+		        String sql = "INSERT INTO Perfil (Nombre_PERFIL, Biografia) VALUES (?, ?)";
+
+		        try (Connection conn1 = conn1561.getConnection(); // Usar el método getConnection() de Conexion_mysql
+		             PreparedStatement pstmt = conn1.prepareStatement(sql)) {
+
+		            // Primer inserción
+		            pstmt.setString(1, textField_2.getText()); // Nombre_PERFIL
+		            pstmt.setString(2, textArea.getText()); // Biografia
+		            int rowsAffected1 = pstmt.executeUpdate();
+		        } catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
 }

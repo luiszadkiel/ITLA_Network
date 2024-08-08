@@ -15,7 +15,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 import clases.Perfil;
 import clases.loginn;
 
-public class login extends JDialog {
+public class login extends JFrame {
     int i = 0;
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -43,7 +43,7 @@ public class login extends JDialog {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                	 // Crear un nuevo hilo para manejar la pausa y reproducir música
+                    // Crear un nuevo hilo para manejar la pausa y reproducir música
                     new Thread(() -> {
                         try {
                             // Reproducir la música
@@ -58,8 +58,8 @@ public class login extends JDialog {
                         
                         // Mostrar la ventana de login después de la pausa
                         SwingUtilities.invokeLater(() -> {
-                            login dialog = new login();
-                            dialog.setVisible(true);
+                            login frame = new login();
+                            frame.setVisible(true);
                         });
                     }).start();
                 } catch (Exception e) {
@@ -70,19 +70,17 @@ public class login extends JDialog {
     }
 
     /**
-     * Create the dialog.
+     * Create the frame.
      */
     public login() {
-        // Configuración del diálogo modal
-        setModalityType(ModalityType.APPLICATION_MODAL);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        // Configuración del JFrame
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 569, 566);
-        setLocationRelativeTo(null); // Centra el diálogo en la pantalla
+        setLocationRelativeTo(null); // Centra el JFrame en la pantalla
 
         contentPane = new JPanel();
         contentPane.setBackground(new Color(0, 0, 64));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
@@ -99,7 +97,7 @@ public class login extends JDialog {
         panel.add(textField);
         textField.setColumns(10);
 
-        JButton btnNewButton = new JButton("Iniciar sesion");
+        JButton btnNewButton = new JButton("Iniciar sesión");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -117,12 +115,12 @@ public class login extends JDialog {
                     ventanaPrincipal.frame.setLocationRelativeTo(null); // Centra el JFrame en la pantalla
                     ventanaPrincipal.frame.setVisible(true); // Hace visible el JFrame
                     stopMusic(); // Detener la música al hacer clic en el botón
-                    dispose(); // Cierra el diálogo después de iniciar sesión
+                    dispose(); // Cierra el JFrame después de iniciar sesión
                 } else {
                     i++;
                     JOptionPane.showMessageDialog(null, "¡Usuario o contraseña incorrectos!", "", JOptionPane.ERROR_MESSAGE);
                     if (i > 3) {
-                        JOptionPane.showMessageDialog(null, "Por favor registrese nuevamente", "", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Por favor regístrese nuevamente", "", JOptionPane.ERROR_MESSAGE);
                         i = 0;
                     }
                 }
@@ -167,13 +165,9 @@ public class login extends JDialog {
         lblNewLabel_1.setIcon(new ImageIcon("logo (1).png"));
         lblNewLabel_1.setBounds(49, 34, 162, 126);
         panel.add(lblNewLabel_1);
-        
-       
     }
-    
-    
-    
-    //------------------------- muaica
+
+    //------------------------- música
     public static void playMusic(String filePath) {
         try {
             File musicPath = new File(filePath);
@@ -190,7 +184,8 @@ public class login extends JDialog {
             e.printStackTrace();
         }
     }
-    // pausar musica
+    
+    // pausar música
     public void stopMusic() {
         if (clip != null && clip.isRunning()) {
             clip.stop();

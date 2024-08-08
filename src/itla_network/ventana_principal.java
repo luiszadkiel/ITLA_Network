@@ -75,6 +75,7 @@ public class ventana_principal {
 	private int i1duser_log;
 	JInternalFrame internalFrame_2 = new JInternalFrame("Estados");
 	JInternalFrame internalFrame_3 = new JInternalFrame("Chat");
+
 	JInternalFrame internalFrame_11 = new JInternalFrame("Blog");
     int chatId2 =0;
 	JPanel panel_5 = new JPanel();
@@ -178,7 +179,8 @@ public class ventana_principal {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+		internalFrame_3.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+
 		Conexion_mysql conn = new Conexion_mysql();
 		
 		
@@ -410,6 +412,8 @@ public class ventana_principal {
 		
 
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				internalFrame_3.setVisible(true);
 				//-------------------------------------------------------------------
 				// CARGAR LOS USUARIOS EN EL CHAT
@@ -418,50 +422,55 @@ public class ventana_principal {
 				
 				
 				
-			    	String sql =   "SELECT m.chat_id, m.user_id, u.Nombre_USUARIO, m.texto_mensaje AS ultimo_mensaje, m.hora_envio " +
-					        "FROM Mensaje m " +
-					        "INNER JOIN ( " +
-					        "    SELECT chat_id, MAX(hora_envio) AS ultima_hora_envio " +
-					        "    FROM Mensaje " +
-					        "    WHERE user_id = ? " +
-					        "    GROUP BY chat_id " +
-					        ") ult_msj " +
-					        "ON m.chat_id = ult_msj.chat_id " +
-					        "AND m.hora_envio = ult_msj.ultima_hora_envio " +
-					        "INNER JOIN usuarios u ON m.user_id = u.ID_Usuarios " +  // Unir con la tabla Usuario para obtener el nombre
-					        "ORDER BY m.hora_envio DESC;";
+				String sql =  "SELECT " +
+			            "    c.chat_id, " +
+			            "    c.creacion_chat, " +
+			            "    u.Nombre_USUARIO AS nombre_usuario, " +
+			            "    m.texto_mensaje AS ultimo_mensaje, " +
+			            "    m.hora_envio, " +
+			            "    u.ID_Usuarios AS user_id " + // Agregar la columna user_id
+			            "FROM " +
+			            "    Chat c " +
+			            "JOIN " +
+			            "    Chat_usuarios cu ON c.chat_id = cu.chat_id " +
+			            "LEFT JOIN " +
+			            "    Mensaje m ON c.chat_id = m.chat_id " +
+			            "    AND m.hora_envio = ( " +
+			            "        SELECT MAX(hora_envio) " +
+			            "        FROM Mensaje " +
+			            "        WHERE chat_id = c.chat_id " +
+			            "        AND user_id = ? " + // Parámetro para el ID del usuario
+			            "    ) " +
+			            "LEFT JOIN " +
+			            "    Usuarios u ON m.user_id = u.ID_Usuarios " +
+			            "WHERE " +
+			            "    cu.user_id = ? " + // Parámetro para el ID del usuario
+			            "GROUP BY " +
+			            "    c.chat_id, c.creacion_chat, u.Nombre_USUARIO, m.texto_mensaje, m.hora_envio, u.ID_Usuarios " + // Agregar la columna user_id en GROUP BY
+			            "ORDER BY " +
+			            "    c.creacion_chat DESC";
 
 				try (Connection coneConnection = conn.getConnection();
 				     PreparedStatement pstmt = coneConnection.prepareStatement(sql)) {
 
 				    pstmt.setInt(1, iduser_log); // Establecer el valor del parámetro user_id
+				    pstmt.setInt(2, iduser_log); // Establecer el valor del parámetro user_id
 
 				  
 				    
 				    try (ResultSet rs = pstmt.executeQuery()) {
 				        int yOffset = 11; // Offset inicial para la posición Y
-				        ArrayList<Integer> id = new ArrayList<>();
-				    
+				        HashSet<Integer> processedChatIds = new HashSet<>(); // Usar HashSet para evitar duplicados
+				        
 				        while (rs.next()) {
-				        	
-				        	
-				        	int userId = rs.getInt("user_id");
-				        	
 				            int chatId = rs.getInt("chat_id");
 				            
 				            // Verificar si el chatId ya ha sido procesado
 				            if (processedChatIds.contains(chatId)) {
 				                continue; // Saltar este chatId si ya se ha procesado
 				            }
-				            if (processedUserIds.contains(userId)) {
-				                continue; // Saltar este userId si ya se ha procesado
-				            }
 				            
-				            // Marcar este userId como procesado
-				            processedUserIds.add(userId);
-
-				            
-				            // Marcar este chatId como procesado 
+				            // Agregar el chatId procesado al HashSet
 				            processedChatIds.add(chatId);
 
 				           // int chatId = rs.getInt("chat_id");
@@ -472,7 +481,9 @@ public class ventana_principal {
 				            JButton btnNombrePerfil = new JButton();
 				            JTextField textField_1 = new JTextField();
 				            JSeparator separator_3 = new JSeparator();
-
+				         // Actualizar la interfaz gráfica
+				     
+				            
 				            btnNombrePerfil.addActionListener(new ActionListener() {
 				                @Override
 				                public void actionPerformed(ActionEvent e) {
@@ -540,6 +551,14 @@ public class ventana_principal {
 
 
 				       
+				            
+				            
+				            
+				            
+				            
+				            
+				            
+				            
 				            String query2 = "SELECT u.Nombre_USUARIO " +
 				                    "FROM Usuarios u " +
 				                    "JOIN Chat_usuarios cu ON u.ID_Usuarios = cu.user_id " +

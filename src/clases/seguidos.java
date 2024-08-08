@@ -10,8 +10,8 @@ import basedatos.Conexion_mysql;
 
 public class seguidos extends Perfil {
     private List<String> seguidores = new ArrayList<>();
-    private int userLogged;
-    private Conexion_mysql conexion;
+    private static int userLogged;
+    private  Conexion_mysql conexion;
     private Perfil perfil = Perfil.getInstance();
     private int cantidadSeguidores;
 
@@ -36,7 +36,7 @@ public class seguidos extends Perfil {
         }
     }
 
-    public List<String> obtenerSeguidores() {
+    public static  List<String> obtenerSeguidores() {
         List<String> seguidores = new ArrayList<>();
         
         String sql = "SELECT u.Nombre_USUARIO AS Nombre " +
@@ -44,8 +44,8 @@ public class seguidos extends Perfil {
                      "JOIN Usuarios u ON s.seguidor_id = u.ID_Usuarios " +
                      "JOIN Cuenta c ON s.FK_Cuenta = c.id_cuenta " +
                      "WHERE c.propietario_id = ?;";
-
-        try (PreparedStatement pstmt = conexion.getConnection().prepareStatement(sql)) {
+        Conexion_mysql cone = new Conexion_mysql(); // Inicializar conexión con la base de datos
+        try (PreparedStatement pstmt = cone.getConnection().prepareStatement(sql)) {
             pstmt.setInt(1, userLogged);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
