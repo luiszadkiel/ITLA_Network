@@ -434,7 +434,8 @@ int a;
 
                 try (Connection connect_90345 = conn156.getConnection();
                      PreparedStatement preparedStatement4 = connect_90345.prepareStatement(query0_34)) {
-
+  
+                	//
                     preparedStatement4.setInt(1, getIdusario());
                     try (ResultSet rs = preparedStatement4.executeQuery()) {
                         if (!rs.next()) {
