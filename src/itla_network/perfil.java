@@ -439,7 +439,7 @@ public class perfil extends JFrame {
         try {
             Connection coneshowConexion = conexion.getConnection();
             PreparedStatement bin = coneshowConexion.prepareStatement("SELECT * FROM post WHERE UsuarioID = ?");                                           // OJO AQUI SOLO ES DE PRUEBA EL 7 SE DEBE CAMBIAR POR UNA VARIABLE
-            bin.setInt(1, 7); // Asumiendo que el ID es 5. Ajusta según sea necesario.
+            bin.setInt(1, 7); //   QUITA EL 7 Y PON EL ID                                                                                                         AQUI VA EL ID QUE SE EXTRAE DESDE EL BONTON PEFIL EN EL INCIO EN VEZ DE  7 VA ESTA
             ResultSet blb = bin.executeQuery();
 
          

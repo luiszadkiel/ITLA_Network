@@ -80,7 +80,7 @@ public class ventana_principal {
     int chatId2 =0;
 	JPanel panel_5 = new JPanel();
 	int nose = -1;
-   int count = 50;
+  // int count = 50;
 		Perfil miperfil = Perfil.getInstance();
 		int id = -1;
 	   String nombre_user =miperfil.getNombre_Perfil();
@@ -295,7 +295,7 @@ public class ventana_principal {
 
 		// Crear el JScrollPane con el panel como contenido
 		JScrollPane scrollPane_3 = new JScrollPane(panel_5);
-		panel_5.setLayout(null);
+		panel_5.setLayout(new GridLayout(0,1));
 
 		// Ajustar el tamaño y agregar el JScrollPane al internal frame
 		scrollPane_3.setBounds(0, 0, 758, 680);	
@@ -667,6 +667,11 @@ public class ventana_principal {
 		internalFrame1.getContentPane().add(btnNewButton_3_1_2);
 		
 		JButton btnNewButton_3_1_3 = new JButton("Inicio");
+		btnNewButton_3_1_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				veerimages2();
+			}
+		});
 		
 		
 		
@@ -760,9 +765,9 @@ public class ventana_principal {
 						tglbtnNewToggleButton.setName(String.valueOf(postId)); // Asociar el ID del post al botón
 						tglbtnNewToggleButton.addActionListener(likesActionListener);
 						
-						panel_3.setBounds(55, count, 605, 426);
+						panel_3.setBounds(55, 50, 605, 426);
 						panel_3.setLayout(null);
-						count=500; count++;
+						//count=500; count++;
 						ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
 						Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
 						panel_3.add(btnNewButton_1);	
@@ -783,6 +788,87 @@ public class ventana_principal {
 						panel_3.add(otroLabel2);
 						panel_3.add(lblNewLabel_1);
 						panel_5.add(panel_3);
+					}
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	public void veerimages2() {		
+        panel_5.removeAll();
+       // count = 50;
+
+		Conexion_mysql cone = new Conexion_mysql();
+		
+		try {
+			Connection coneConnection = cone.getConnection(); 
+			PreparedStatement consulPreparedStatement2 = coneConnection.prepareStatement("Select ID_Usuarios from Usuarios where Nombre_USUARIO = ?");
+			consulPreparedStatement2.setString(1, nombre_user);
+			ResultSet resultadoResultSet2 = consulPreparedStatement2.executeQuery();
+			int resultado = -1;
+			if (resultadoResultSet2.next()) {
+				resultado = resultadoResultSet2.getInt("ID_Usuarios");
+			}
+			
+			PreparedStatement consulPreparedStatement = coneConnection.prepareStatement("Select ID_post, IMAGEN, DESCRIPCION from post where UsuarioID = ?");
+			consulPreparedStatement.setInt(1, resultado);
+			 
+			ResultSet resultadoResultSet = consulPreparedStatement.executeQuery();
+			
+			while (resultadoResultSet.next()) {
+				int postId = resultadoResultSet.getInt("ID_post"); // Obtener el ID del post
+				java.sql.Blob imge = resultadoResultSet.getBlob("IMAGEN");
+				String descripcionString = resultadoResultSet.getString("DESCRIPCION");
+				
+				if (imge != null) {
+					byte[] pre = imge.getBytes(1, (int) imge.length());
+					BufferedImage imagenBufferedImage = null;
+
+					if (pre != null && pre.length > 0) {
+						try {
+							imagenBufferedImage = ImageIO.read(new ByteArrayInputStream(pre));
+						} catch (IOException e2) {
+							java.util.logging.Logger.getLogger(ventana_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, e2);
+						}
+						
+						JPanel panel_3 = new JPanel();
+						JLabel otroLabel = new JLabel(nombre_user);
+						JLabel otroLabel2 = new JLabel(descripcionString);
+						JButton btnNewButton_1 = new JButton("comentarios");
+						btnNewButton_1.addActionListener(botonescomentariosActionListener);
+						btnNewButton_1.setName(String.valueOf(postId)); // Asociar el ID del post al botón
+
+						JToggleButton tglbtnNewToggleButton = new JToggleButton("likes 0");
+						tglbtnNewToggleButton.setName(String.valueOf(postId)); // Asociar el ID del post al botón
+						tglbtnNewToggleButton.addActionListener(likesActionListener);
+						
+						panel_3.setBounds(55, 50, 605, 426);
+						panel_3.setLayout(null);
+						//count=500; count++;
+						ImageIcon nvlIcon = new ImageIcon(imagenBufferedImage);
+						Icon imagenIcon = new ImageIcon(nvlIcon.getImage().getScaledInstance(470, 300, Image.SCALE_SMOOTH));	
+						panel_3.add(btnNewButton_1);	
+						btnNewButton_1.setBounds(300, 385, 240, 32);
+						otroLabel.setBounds(65, 40, 400, 20);
+						otroLabel2.setBounds(65, 355, btnNewButton_1.getWidth(), btnNewButton_1.getHeight());
+						
+						panel_3.add(tglbtnNewToggleButton);
+						tglbtnNewToggleButton.setBounds(65, 385, 240, 32);
+						JLabel lblNewLabel_1 = new JLabel(imagenIcon);
+						otroLabel.setForeground(new Color(255, 255, 255));
+						 otroLabel.setFont(new Font("Wide Latin", Font.PLAIN, 20));
+						 otroLabel2.setForeground(new Color(255, 255, 255));
+						 otroLabel2.setFont(new Font("Wide Latin", Font.PLAIN, 12));
+						 panel_3.setBackground(Color.black);
+						lblNewLabel_1.setSize(panel_3.getSize());
+						panel_3.add(otroLabel);
+						panel_3.add(otroLabel2);
+						panel_3.add(lblNewLabel_1);
+						panel_5.add(panel_3);
+					    
+						panel_5.revalidate();
+		                panel_5.repaint();
 					}
 				}
 			}
