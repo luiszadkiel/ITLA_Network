@@ -153,20 +153,13 @@ public class chat_principal extends JFrame {
         });
         
  //-----------------------------------------------------------------------------------------------------------------------------------------       
-        
-        
-        
-        
+ 
         
         btnNewButton.setFont(new Font("Sitka Small", Font.PLAIN, 15));
         btnNewButton.setForeground(new Color(0, 0, 0));
         btnNewButton.setBounds(632, 494, 176, 39);
         contentPane.add(btnNewButton);
 
-        
-        
-        
-        
         JButton btnNewButton_3 = new JButton("New button");
         btnNewButton_3.setFont(new Font("Sitka Small", Font.PLAIN, 16));
         btnNewButton_3.setBackground(Color.BLACK);
@@ -175,18 +168,16 @@ public class chat_principal extends JFrame {
         btnNewButton_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	
+            	// evento para abirr lac clase perfil y pasarle como construcotr el id del usuario de chat para que sepa cuan abri
             		 perfil perfil = new perfil(idusuariodechar);
             		  perfil.setVisible(true);
-            
-         
-               
-              
+    
             }
         });
         btnNewButton_3.setBounds(187, 23, 613, 40);
         contentPane.add(btnNewButton_3);
 
-        
+    //------------------------------------------------------------------------------------------------------------------------------    
 
         // Crear un panel para los mensajes
         panel = new JPanel();
@@ -245,7 +236,7 @@ public class chat_principal extends JFrame {
 ///---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------       
     
     
-    
+    //evento para cargar mensajes nuevos
     private void loadMessages() {
         panel.removeAll();
 
@@ -310,6 +301,8 @@ public class chat_principal extends JFrame {
             e.printStackTrace();
         }
     }
+    
+    //---------------hilo 
     private void startMessageUpdater() {
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
@@ -319,6 +312,8 @@ public class chat_principal extends JFrame {
         }, 0, 1, TimeUnit.MINUTES);
     }
 
+    
+    
     public String getnombre_user_chat() {
         return nombre_user_chat;
     }

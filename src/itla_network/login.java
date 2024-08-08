@@ -43,25 +43,36 @@ public class login extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                	
+                	
                     // Crear un nuevo hilo para manejar la pausa y reproducir música
                     new Thread(() -> {
                         try {
+                        	
                             // Reproducir la música
-                            String filePath = "ah.wav"; // Nombre del archivo WAV
+                            String filePath = "ah.wav"; 
                             playMusic(filePath);
                             
                             // Pausa el hilo por 13 segundos (13,000 milisegundos)
                             Thread.sleep(13000);
+                            
+                            
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         
+                        
+
                         // Mostrar la ventana de login después de la pausa
                         SwingUtilities.invokeLater(() -> {
                             login frame = new login();
                             frame.setVisible(true);
                         });
                     }).start();
+                    
+                    
+           
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
