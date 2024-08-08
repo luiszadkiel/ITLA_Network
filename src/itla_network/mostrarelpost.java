@@ -68,7 +68,7 @@ public class mostrarelpost extends JFrame {
     public mostrarelpost(int id) {
     	imgs(id); 
         setTitle("PUBLICACION");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);        
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);        
 
         setBounds(100, 100, 877, 440);
         contentPane = new JPanel();
